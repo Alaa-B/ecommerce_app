@@ -23,7 +23,7 @@ class FakeAuthRepository {
   void dispose() => _authState.close();
 
   Future<void> signOut() async {
-    await Future.delayed(Duration(seconds: 2));
+    // await Future.delayed(Duration(seconds: 2));
     // *! Simulate a network error
     // throw Exception('Error signing out');
     _authState.value = null;

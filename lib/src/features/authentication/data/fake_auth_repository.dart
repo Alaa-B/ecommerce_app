@@ -9,6 +9,9 @@ class FakeAuthRepository {
   AppUser? get currentUser => _authState.value;
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
+    // *! Simulate a network error
+    await Future.delayed(const Duration(seconds: 1));
+    // throw Exception('Connection failed');
     if (currentUser == null) {
       _authState.value = AppUser(uid: _createUserId(email), email: email);
     }
@@ -23,8 +26,8 @@ class FakeAuthRepository {
   void dispose() => _authState.close();
 
   Future<void> signOut() async {
-    // await Future.delayed(Duration(seconds: 2));
     // *! Simulate a network error
+    await Future.delayed(Duration(seconds: 1));
     // throw Exception('Error signing out');
     _authState.value = null;
   }

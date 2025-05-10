@@ -16,8 +16,8 @@ class RegexValidator implements StringValidator {
       // https://regex101.com/
       final RegExp regex = RegExp(regexSource);
       final Iterable<Match> matches = regex.allMatches(value);
-      for (final match in matches) {
-        if (match.start == 0 && match.end == value.length) {
+      for (final m in matches) {
+        if (m.start == 0 && m.end == value.length) {
           return true;
         }
       }

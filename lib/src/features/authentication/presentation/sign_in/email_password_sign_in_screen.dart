@@ -9,7 +9,6 @@ import 'package:ecommerce_app/src/common_widgets/custom_text_button.dart';
 import 'package:ecommerce_app/src/common_widgets/primary_button.dart';
 import 'package:ecommerce_app/src/common_widgets/responsive_scrollable_card.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EmailPasswordSignInScreen extends StatelessWidget {
@@ -26,7 +25,7 @@ class EmailPasswordSignInScreen extends StatelessWidget {
       appBar: AppBar(title: Text('Sign In'.hardcoded)),
       body: EmailPasswordSignInContents(
         formType: formType,
-        onSignedIn: () => context.pop(),
+        // onSignedIn: () => context.pop(),
       ),
     );
   }
@@ -110,6 +109,15 @@ class _EmailPasswordSignInContentsState
           .select((state) => state.value),
       (_, state) => state.showAlertDialogOnError(context),
     );
+    // ! the async value is holding the error state while changing the
+    // ! form type , so we need to clear the error state or select the value
+    // ! not the form type also
+    // ref.listen<EmailPasswordSignInState>(
+    //     emailPasswordSignInControllerProvider(widget.formType),
+    //     (_, currentState) {
+    //   currentState.value.showAlertDialogOnError(context);
+    // });
+
     final state =
         ref.watch(emailPasswordSignInControllerProvider(widget.formType));
 

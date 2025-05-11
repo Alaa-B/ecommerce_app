@@ -8,7 +8,7 @@ class AccountScreenController extends StateNotifier<AsyncValue> {
       : super(const AsyncValue.data(null));
 
   final FakeAuthRepository fakeAuthRepository;
-  FutureOr<bool> signOut() async {
+  FutureOr<void> signOut() async {
     // * This is the old way of doing it. It was changed to use AsyncValue.guard.
     // try {
     //   state = const AsyncValue<void>.loading();
@@ -23,7 +23,6 @@ class AccountScreenController extends StateNotifier<AsyncValue> {
     // * It handles the loading and error states.
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() => fakeAuthRepository.signOut());
-    return state.hasError ? false : true;
   }
 }
 

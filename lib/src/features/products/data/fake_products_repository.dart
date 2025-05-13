@@ -1,37 +1,48 @@
 import 'dart:async';
 import 'package:ecommerce_app/src/constants/test_products.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
+import 'package:ecommerce_app/src/utils/delay.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FakeProductsRepository {
-  FakeProductsRepository._();
-  static FakeProductsRepository instance = FakeProductsRepository._();
+  FakeProductsRepository._({required this.delay});
+
+// * for testing set delay to false
+  static FakeProductsRepository instance =
+      FakeProductsRepository._(delay: false);
 
   final _products = kTestProducts;
+  final bool delay;
   List<Product> getProductsList() {
     return _products;
   }
 
   Product? getProductById(String id) {
-    return _products.firstWhere((product) => product.id == id);
+    return _getProductById(_products, id);
   }
 
   Future<List<Product>> fetchProductsList() async {
-    await Future.delayed(Duration(seconds: 2));
+    await delayed(delay);
     return Future.value(_products);
   }
 
   Stream<List<Product>> watchProductsList() async* {
-    await Future.delayed(Duration(seconds: 2));
+    await delayed(delay);
     yield _products;
   }
 
   Stream<Product?> watchProductById(String id) {
     return watchProductsList().map(
-      (product) {
-        return product.firstWhere((product) => product.id == id);
-      },
+      (product) => _getProductById(product, id),
     );
+  }
+
+  static Product? _getProductById(List<Product> products, String id) {
+    try {
+      return products.firstWhere((product) => product.id == id);
+    } catch (e) {
+      return null;
+    }
   }
 }
 

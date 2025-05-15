@@ -1,10 +1,13 @@
+// ignore: library_annotations
+@Timeout(Duration(microseconds: 500))
+
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/account/account_screen_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockAuthRepository extends Mock implements FakeAuthRepository {}
+import '../../../../mocks/mocks.dart';
 
 void main() {
   late FakeAuthRepository authRepo;
@@ -20,7 +23,6 @@ void main() {
         verifyNever(authRepo.signOut);
         expect(controller.state, AsyncData<void>(null));
       },
-      timeout: const Timeout(Duration(microseconds: 500)),
     );
     test(
       'signOut success',
@@ -35,7 +37,6 @@ void main() {
         await controller.signOut();
         verify(authRepo.signOut).called(1);
       },
-      timeout: const Timeout(Duration(microseconds: 500)),
     );
     test(
       'signOut failure',
@@ -50,7 +51,6 @@ void main() {
         await controller.signOut();
         verify(authRepo.signOut).called(1);
       },
-      timeout: const Timeout(Duration(microseconds: 500)),
     );
   });
 }

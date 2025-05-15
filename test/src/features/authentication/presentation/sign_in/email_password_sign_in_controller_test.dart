@@ -1,11 +1,13 @@
-import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
+// ignore: library_annotations
+@Timeout(Duration(microseconds: 500))
+
 import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_controller.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockFakeAuthRepository extends Mock implements FakeAuthRepository {}
+import '../../../../mocks/mocks.dart';
 
 void main() {
   final email = 'test@test.com';
@@ -18,7 +20,7 @@ void main() {
     Then return true
     And state is AsyncData
     ''', () async {
-      final authRepo = MockFakeAuthRepository();
+      final authRepo = MockAuthRepository();
       when(
         () => authRepo.signInWithEmailAndPassword(email, password),
       ).thenAnswer((_) => Future.value());
@@ -48,7 +50,7 @@ void main() {
     Then return false
     And state is AsyncError
     ''', () async {
-      final authRepo = MockFakeAuthRepository();
+      final authRepo = MockAuthRepository();
       when(
         () => authRepo.signInWithEmailAndPassword(email, password),
       ).thenThrow(Exception('signIn failed'));
@@ -80,7 +82,7 @@ void main() {
     Then return true
     And state is AsyncData
     ''', () async {
-      final authRepo = MockFakeAuthRepository();
+      final authRepo = MockAuthRepository();
       when(
         () => authRepo.createUserEmailAndPassword(email, password),
       ).thenAnswer((_) => Future.value());
@@ -110,7 +112,7 @@ void main() {
     Then return false
     And state is AsyncError
     ''', () async {
-      final authRepo = MockFakeAuthRepository();
+      final authRepo = MockAuthRepository();
       when(
         () => authRepo.createUserEmailAndPassword(email, password),
       ).thenThrow(Exception('register failed'));
@@ -143,7 +145,7 @@ Given formType is signIn
 When updateFormType is called with register
 Then formType is register
 ''', () {
-      final authRepo = MockFakeAuthRepository();
+      final authRepo = MockAuthRepository();
       final controller = EmailPasswordSignInController(
           formType: EmailPasswordSignInFormType.signIn,
           fakeAuthRepository: authRepo);

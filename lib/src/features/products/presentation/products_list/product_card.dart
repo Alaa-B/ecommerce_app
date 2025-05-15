@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import '../product_screen/product_average_rating.dart';
 import '../../../../localization/string_hardcoded.dart';
-import 'package:flutter/material.dart';
 import '../../../../common_widgets/custom_image.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../domain/product.dart';

@@ -3,9 +3,9 @@ import 'dart:async';
 import '../../data/fake_auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AccountScreenController extends StateNotifier<AsyncValue> {
+class AccountScreenController extends StateNotifier<AsyncValue<void>> {
   AccountScreenController({required this.fakeAuthRepository})
-      : super(const AsyncValue.data(null));
+      : super(const AsyncData(null));
 
   final FakeAuthRepository fakeAuthRepository;
   FutureOr<void> signOut() async {
@@ -21,13 +21,13 @@ class AccountScreenController extends StateNotifier<AsyncValue> {
     // }
     // * This is the new way of doing it. It uses AsyncValue.guard.
     // * It handles the loading and error states.
-    state = const AsyncValue.loading();
+    state = const AsyncLoading();
     state = await AsyncValue.guard(() => fakeAuthRepository.signOut());
   }
 }
 
 final accountScreenControllerProvider =
-    StateNotifierProvider<AccountScreenController, AsyncValue>((ref) {
+    StateNotifierProvider<AccountScreenController, AsyncValue<void>>((ref) {
   final fakeAuthRepository = ref.watch(authRepositoryProvider);
   return AccountScreenController(fakeAuthRepository: fakeAuthRepository);
 });

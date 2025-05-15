@@ -7,27 +7,32 @@ void main() {
   const String password = '123456789';
   final String uId = email.split('').reversed.join();
   final appUser = AppUser(uid: uId, email: email);
+
+  FakeAuthRepository fakeAuthRepository() => FakeAuthRepository(delay: false);
   group('Fake Auth Repository', () {
-    final fakeAuthRepository = FakeAuthRepository(delay: false);
     test('fake auth repository return null', () {
-      final authRepo = fakeAuthRepository;
+      final authRepo = fakeAuthRepository();
+      addTearDown(authRepo.dispose);
       expect(authRepo.currentUser, null);
       expect(authRepo.authStateChanges(), emits(null));
     });
     test('sign in with email & password return appUser', () async {
-      final authRepo = fakeAuthRepository;
+      final authRepo = fakeAuthRepository();
+      addTearDown(authRepo.dispose);
       await authRepo.signInWithEmailAndPassword(email, password);
       expect(authRepo.currentUser, appUser);
       expect(authRepo.authStateChanges(), emits(appUser));
     });
     test('create account with email & password return appUser', () async {
-      final authRepo = fakeAuthRepository;
+      final authRepo = fakeAuthRepository();
+      addTearDown(authRepo.dispose);
       await authRepo.createUserEmailAndPassword(email, password);
       expect(authRepo.currentUser, appUser);
       expect(authRepo.authStateChanges(), emits(appUser));
     });
     test('sign out return null appUser', () async {
-      final authRepo = fakeAuthRepository;
+      final authRepo = fakeAuthRepository();
+      addTearDown(authRepo.dispose);
       await authRepo.createUserEmailAndPassword(email, password);
       expect(authRepo.currentUser, appUser);
       expect(authRepo.authStateChanges(), emits(appUser));
@@ -36,7 +41,8 @@ void main() {
       expect(authRepo.authStateChanges(), emits(null));
     });
     test('return error after dispose', () async {
-      final authRepo = fakeAuthRepository;
+      final authRepo = fakeAuthRepository();
+      addTearDown(authRepo.dispose);
       authRepo.dispose();
       expect(() async {
         await authRepo.createUserEmailAndPassword(email, password);

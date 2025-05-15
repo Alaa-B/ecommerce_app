@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'order_card.dart';
 import '../../../../localization/string_hardcoded.dart';
-import 'package:flutter/material.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../domain/order.dart';

@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import '../../../../common_widgets/alert_dialogs.dart';
 import 'product_rating_bar.dart';
-import 'package:flutter/material.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../domain/review.dart';
 import '../../../../utils/date_formatter.dart';

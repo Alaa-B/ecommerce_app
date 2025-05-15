@@ -1,5 +1,5 @@
-import '../../../../utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
+import '../../../../utils/currency_formatter.dart';
 
 /// Text widget for showing the total price of the cart
 class CartTotalText extends StatelessWidget {

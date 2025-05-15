@@ -1,5 +1,5 @@
-import '../../../localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
+import '../../../localization/string_hardcoded.dart';
 import '../../../common_widgets/primary_button.dart';
 import '../../../common_widgets/responsive_scrollable_card.dart';
 import '../../../constants/app_sizes.dart';

@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import '../../../../common_widgets/alert_dialogs.dart';
 import '../../../../constants/breakpoints.dart';
 import '../product_reviews/product_rating_bar.dart';
 import '../../../../localization/string_hardcoded.dart';
-import 'package:flutter/material.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../common_widgets/primary_button.dart';
 import '../../../../constants/app_sizes.dart';

@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'order_item_list_tile.dart';
 import 'order_status_label.dart';
 import '../../../../localization/string_hardcoded.dart';
-import 'package:flutter/material.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../cart/domain/item.dart';
 import '../../domain/order.dart';

@@ -1,6 +1,6 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/fake_auth_repository.dart';
 import 'email_password_sign_in_state.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EmailPasswordSignInController
     extends StateNotifier<EmailPasswordSignInState> {
@@ -8,6 +8,7 @@ class EmailPasswordSignInController
       {required EmailPasswordSignInFormType formType,
       required this.fakeAuthRepository})
       : super(EmailPasswordSignInState(formType: formType));
+
   final FakeAuthRepository fakeAuthRepository;
 
   Future<bool> submit(String email, String password) async {

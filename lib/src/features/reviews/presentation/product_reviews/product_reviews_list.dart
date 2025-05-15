@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import '../../../../constants/breakpoints.dart';
 import 'product_review_card.dart';
-import 'package:flutter/material.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../domain/review.dart';

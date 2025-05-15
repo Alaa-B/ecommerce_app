@@ -1,12 +1,12 @@
 import 'dart:math';
-
-import 'package:ecommerce_app/src/common_widgets/alert_dialogs.dart';
-import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/src/common_widgets/item_quantity_selector.dart';
-import 'package:ecommerce_app/src/common_widgets/primary_button.dart';
-import 'package:ecommerce_app/src/constants/app_sizes.dart';
-import 'package:ecommerce_app/src/features/products/domain/product.dart';
+
+import '../../../../common_widgets/alert_dialogs.dart';
+import '../../../../localization/string_hardcoded.dart';
+import '../../../../common_widgets/item_quantity_selector.dart';
+import '../../../../common_widgets/primary_button.dart';
+import '../../../../constants/app_sizes.dart';
+import '../../../products/domain/product.dart';
 
 /// A widget that shows an [ItemQuantitySelector] along with a [PrimaryButton]
 /// to add the selected quantity of the item to the cart.

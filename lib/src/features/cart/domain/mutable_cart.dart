@@ -1,6 +1,6 @@
-import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
-import 'package:ecommerce_app/src/features/cart/domain/item.dart';
-import 'package:ecommerce_app/src/features/products/domain/product.dart';
+import 'cart.dart';
+import 'item.dart';
+import '../../products/domain/product.dart';
 
 /// Helper extension used to mutate the items in the shopping cart.
 extension MutableCart on Cart {

@@ -1,18 +1,21 @@
 import 'dart:async';
-import 'package:ecommerce_app/src/constants/test_products.dart';
-import 'package:ecommerce_app/src/features/products/domain/product.dart';
-import 'package:ecommerce_app/src/utils/delay.dart';
+import '../../../constants/test_products.dart';
+import '../domain/product.dart';
+import '../../../utils/delay.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FakeProductsRepository {
-  FakeProductsRepository._({required this.delay});
+  FakeProductsRepository._instance();
+  static final FakeProductsRepository _inst =
+      FakeProductsRepository._instance();
 
-// * for testing set delay to false
-  static FakeProductsRepository instance =
-      FakeProductsRepository._(delay: false);
+  factory FakeProductsRepository({bool isDelay = true}) {
+    _inst.delay = isDelay;
+    return _inst;
+  }
 
   final _products = kTestProducts;
-  final bool delay;
+  late bool delay;
   List<Product> getProductsList() {
     return _products;
   }
@@ -47,7 +50,7 @@ class FakeProductsRepository {
 }
 
 final productsRepositoryProvider = Provider<FakeProductsRepository>((ref) {
-  return FakeProductsRepository.instance;
+  return FakeProductsRepository._inst;
 });
 
 final productsListStreamProvider =

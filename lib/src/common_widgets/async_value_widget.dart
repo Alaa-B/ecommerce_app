@@ -1,5 +1,5 @@
-import 'package:ecommerce_app/src/common_widgets/error_message_widget.dart';
-import 'package:ecommerce_app/src/constants/app_sizes.dart';
+import 'error_message_widget.dart';
+import '../constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,10 +1,10 @@
-import 'package:ecommerce_app/src/features/products/presentation/product_screen/product_average_rating.dart';
-import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import '../product_screen/product_average_rating.dart';
+import '../../../../localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/src/common_widgets/custom_image.dart';
-import 'package:ecommerce_app/src/constants/app_sizes.dart';
-import 'package:ecommerce_app/src/features/products/domain/product.dart';
-import 'package:ecommerce_app/src/utils/currency_formatter.dart';
+import '../../../../common_widgets/custom_image.dart';
+import '../../../../constants/app_sizes.dart';
+import '../../domain/product.dart';
+import '../../../../utils/currency_formatter.dart';
 
 /// Used to show a single product inside a card.
 class ProductCard extends StatelessWidget {
@@ -32,7 +32,8 @@ class ProductCard extends StatelessWidget {
               gapH8,
               const Divider(),
               gapH8,
-              Text(product.title, style: Theme.of(context).textTheme.titleLarge),
+              Text(product.title,
+                  style: Theme.of(context).textTheme.titleLarge),
               if (product.numRatings >= 1) ...[
                 gapH8,
                 ProductAverageRating(product: product),

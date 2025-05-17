@@ -14,8 +14,6 @@ class FakeAuthRepository {
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     await delayed(delay);
-    // *! Simulate a network error
-    // throw Exception('Connection failed');
     _authState.value = AppUser(uid: _createUserId(email), email: email);
   }
 
@@ -30,9 +28,6 @@ class FakeAuthRepository {
   }
 
   Future<void> signOut() async {
-    await delayed(delay);
-    // *! Simulate a network error
-    // throw Exception('Error signing out');
     _authState.value = null;
   }
 

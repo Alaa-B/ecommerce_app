@@ -50,7 +50,7 @@ class FakeProductsRepository {
 }
 
 final productsRepositoryProvider = Provider<FakeProductsRepository>((ref) {
-  return FakeProductsRepository._inst;
+  return FakeProductsRepository();
 });
 
 final productsListStreamProvider =

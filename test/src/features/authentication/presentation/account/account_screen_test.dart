@@ -27,7 +27,7 @@ void main() {
     await r.pumpAccountScreen();
     await r.tapLogoutButton();
     r.expectLogOutDialog();
-    await r.tapLogoutDialogButton();
+    await r.tapLogoutDialogButtonWithSettle();
     r.expectLogOutDialogNotFound();
     r.expectErrorDialogNotFound();
   });
@@ -56,8 +56,8 @@ void main() {
         AppUser(uid: '125161', email: 'test@test.com'),
       ),
     );
-    await r.pumpAccountScreen(fakeAuthRepository: authRepo);
     await tester.runAsync(() async {
+      await r.pumpAccountScreen(fakeAuthRepository: authRepo);
       await r.tapLogoutButton();
       r.expectLogOutDialog();
       await r.tapLogoutDialogButton();

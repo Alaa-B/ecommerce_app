@@ -114,10 +114,17 @@ class AuthRobot {
     final Finder cancelButton = find.text('Cancel');
     expect(cancelButton, findsOneWidget);
     await tester.tap(cancelButton);
-    await tester.pump();
+    await tester.pumpAndSettle();
   }
 
   Future<void> tapLogoutDialogButton() async {
+    final Finder logoutButton = find.byKey(logOutButtonKey);
+    expect(logoutButton, findsOneWidget);
+    await tester.tap(logoutButton);
+    await tester.pump();
+  }
+
+  Future<void> tapLogoutDialogButtonWithSettle() async {
     final Finder logoutButton = find.byKey(logOutButtonKey);
     expect(logoutButton, findsOneWidget);
     await tester.tap(logoutButton);

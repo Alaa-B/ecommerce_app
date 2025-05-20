@@ -22,7 +22,7 @@ void main() {
     r.auth.expectLogoutButton();
     await r.auth.tapLogoutButton();
     r.auth.expectLogOutDialog();
-    await r.auth.tapLogoutDialogButton();
+    await r.auth.tapLogoutDialogButtonWithSettle();
     r.expectFindAllProducts();
   });
 }

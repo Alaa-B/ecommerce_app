@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/src/utils/async_value_ui.dart';
+
 import '../../../../common_widgets/alert_dialogs.dart';
 import '../../data/fake_auth_repository.dart';
 import 'account_screen_controller.dart';
@@ -14,20 +16,13 @@ class AccountScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(accountScreenControllerProvider);
-
     ref.listen<AsyncValue>(
       accountScreenControllerProvider,
-      (previousState, currentState) {
-        if (!currentState.isLoading && currentState.hasError) {
-          showExceptionAlertDialog(
-              context: context,
-              title: 'logout failed'.hardcoded,
-              exception: currentState.error);
-        }
+      (_, currentState) {
+        currentState.showAlertDialogOnError(context);
       },
     );
-
+    final state = ref.watch(accountScreenControllerProvider);
     return Scaffold(
       appBar: AppBar(
         title: state.isLoading

@@ -17,17 +17,10 @@ void main() {
   });
   testWidgets('confirm logout,success', (tester) async {
     final r = AuthRobot(tester);
-    // final authRepo = MockAuthRepository();
-    // when(authRepo.authStateChanges).thenAnswer(
-    //   (_) => Stream.value(
-    //     AppUser(uid: '32131', email: 'Test@test.com'),
-    //   ),
-    // );
-    // await r.pumpAccountScreen(fakeAuthRepository: authRepo);
     await r.pumpAccountScreen();
     await r.tapLogoutButton();
     r.expectLogOutDialog();
-    await r.tapLogoutDialogButtonWithSettle();
+    await r.tapLogoutDialogButton();
     r.expectLogOutDialogNotFound();
     r.expectErrorDialogNotFound();
   });
@@ -49,19 +42,19 @@ void main() {
   testWidgets('confirm logout,Loading', (tester) async {
     final r = AuthRobot(tester);
     final authRepo = MockAuthRepository();
-    when(authRepo.signOut)
-        .thenAnswer((_) => Future.delayed(Duration(seconds: 2)));
     when(authRepo.authStateChanges).thenAnswer(
       (_) => Stream.value(
         AppUser(uid: '125161', email: 'test@test.com'),
       ),
     );
+    when(authRepo.signOut)
+        .thenAnswer((_) => Future.delayed(Duration(seconds: 2)));
+    await r.pumpAccountScreen(fakeAuthRepository: authRepo);
     await tester.runAsync(() async {
-      await r.pumpAccountScreen(fakeAuthRepository: authRepo);
       await r.tapLogoutButton();
       r.expectLogOutDialog();
       await r.tapLogoutDialogButton();
+      r.expectCircularProgressIndicator();
     });
-    r.expectCircularProgressIndicator();
   });
 }

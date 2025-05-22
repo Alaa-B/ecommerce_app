@@ -14,6 +14,10 @@ abstract class RemoteCartRepository {
   Future<void> setCart(String uid, Cart cart);
 }
 
+final remoteCartRepositoryProvider = Provider<RemoteCartRepository>((ref) {
+  throw UnimplementedError();
+});
+
 @Riverpod(keepAlive: true)
 RemoteCartRepository remoteCartRepository(Ref ref) {
   // TODO: replace with "real" remote cart repository

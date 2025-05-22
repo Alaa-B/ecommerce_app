@@ -13,6 +13,11 @@ abstract class LocalCartRepository {
   Future<void> setCart(Cart cart);
 }
 
+final localCartRepositoryProvider = Provider<LocalCartRepository>((ref) {
+  // * Override this in the main method
+  throw UnimplementedError();
+});
+
 @Riverpod(keepAlive: true)
 LocalCartRepository localCartRepository(Ref ref) {
   // * Override this in the main method

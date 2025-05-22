@@ -81,7 +81,7 @@ class AuthRobot {
               fakeAuthRepository,
             )
         ],
-        child: MaterialApp(
+        child: const MaterialApp(
           home: AccountScreen(),
         ),
       ),
@@ -97,7 +97,7 @@ class AuthRobot {
     final Finder logoutButton = find.text('Logout');
     expect(logoutButton, findsOneWidget);
     await tester.tap(logoutButton);
-    await tester.pumpAndSettle();
+    await tester.pump();
   }
 
   void expectLogOutDialog() {
@@ -124,20 +124,13 @@ class AuthRobot {
     await tester.pump();
   }
 
-  Future<void> tapLogoutDialogButtonWithSettle() async {
-    final Finder logoutButton = find.byKey(logOutButtonKey);
-    expect(logoutButton, findsOneWidget);
-    await tester.tap(logoutButton);
-    await tester.pumpAndSettle();
-  }
-
   void expectErrorDialog() {
-    final Finder errorDialog = find.text('logout failed');
+    final Finder errorDialog = find.text('Error happen');
     expect(errorDialog, findsOneWidget);
   }
 
   void expectErrorDialogNotFound() {
-    final Finder errorDialog = find.text('logout failed');
+    final Finder errorDialog = find.text('Error happen');
     expect(errorDialog, findsNothing);
   }
 

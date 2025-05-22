@@ -2,8 +2,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
 
-part 'local_cart_repository.g.dart';
-
 /// API for reading, watching and writing local cart data (guest user)
 abstract class LocalCartRepository {
   Future<Cart> fetchCart();
@@ -17,9 +15,3 @@ final localCartRepositoryProvider = Provider<LocalCartRepository>((ref) {
   // * Override this in the main method
   throw UnimplementedError();
 });
-
-@Riverpod(keepAlive: true)
-LocalCartRepository localCartRepository(Ref ref) {
-  // * Override this in the main method
-  throw UnimplementedError();
-}

@@ -3,8 +3,6 @@ import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'remote_cart_repository.g.dart';
-
 /// API for reading, watching and writing cart data for a specific user ID
 abstract class RemoteCartRepository {
   Future<Cart> fetchCart(String uid);
@@ -17,9 +15,3 @@ abstract class RemoteCartRepository {
 final remoteCartRepositoryProvider = Provider<RemoteCartRepository>((ref) {
   throw UnimplementedError();
 });
-
-@Riverpod(keepAlive: true)
-RemoteCartRepository remoteCartRepository(Ref ref) {
-  // TODO: replace with "real" remote cart repository
-  return FakeRemoteCartRepository(addDelay: false);
-}

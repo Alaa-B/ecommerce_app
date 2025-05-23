@@ -5,17 +5,19 @@ import '../../../utils/delay.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FakeProductsRepository {
-  FakeProductsRepository._instance();
-  static final FakeProductsRepository _inst =
-      FakeProductsRepository._instance();
+  // FakeProductsRepository._instance();
+  // static final FakeProductsRepository _inst =
+  //     FakeProductsRepository._instance();
 
-  factory FakeProductsRepository({bool isDelay = true}) {
-    _inst.delay = isDelay;
-    return _inst;
-  }
+  // factory FakeProductsRepository({bool isDelay = true}) {
+  //   _inst.delay = isDelay;
+  //   return _inst;
+  // }
+  FakeProductsRepository({this.isDelay = true});
 
   final _products = kTestProducts;
-  late bool delay;
+  late bool isDelay;
+
   List<Product> getProductsList() {
     return _products;
   }
@@ -25,12 +27,12 @@ class FakeProductsRepository {
   }
 
   Future<List<Product>> fetchProductsList() async {
-    await delayed(delay);
+    await delayed(isDelay);
     return Future.value(_products);
   }
 
   Stream<List<Product>> watchProductsList() async* {
-    await delayed(delay);
+    await delayed(isDelay);
     yield _products;
   }
 
@@ -50,7 +52,7 @@ class FakeProductsRepository {
 }
 
 final productsRepositoryProvider = Provider<FakeProductsRepository>((ref) {
-  return FakeProductsRepository();
+  return FakeProductsRepository(isDelay: false);
 });
 
 final productsListStreamProvider =

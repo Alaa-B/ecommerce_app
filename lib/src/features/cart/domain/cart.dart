@@ -22,15 +22,12 @@ class Cart extends Equatable {
   }
 
   factory Cart.fromMap(Map<String, dynamic> map) {
-    return Cart(Map<ProductID, int>.from(
-      (map['items'] as Map<ProductID, int>),
-    ));
+    return Cart(Map<ProductID, int>.from(map['items']));
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Cart.fromJson(String source) =>
-      Cart.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Cart.fromJson(String source) => Cart.fromMap(json.decode(source));
 
   @override
   String toString() => 'Cart(items: $items)';

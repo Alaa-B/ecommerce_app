@@ -22,7 +22,6 @@ class CartServices {
 
   Future<void> _setCart(Cart cart) async {
     final user = ref.read(authRepositoryProvider).currentUser;
-
     if (user != null) {
       await ref.read(remoteCartRepositoryProvider).setCart(user.uid, cart);
     } else {

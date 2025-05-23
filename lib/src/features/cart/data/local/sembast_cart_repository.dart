@@ -1,5 +1,5 @@
-import 'package:ecommerce_app/src/features/cart/data/local/local_cart_repository.dart';
-import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
+import 'local_cart_repository.dart';
+import '../../domain/cart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast_io.dart';

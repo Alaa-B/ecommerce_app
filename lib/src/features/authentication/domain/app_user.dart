@@ -11,9 +11,7 @@ class AppUser extends Equatable {
   final String? email;
 
   @override
-  List<Object> get props => [
-        uid,
-      ];
+  List<Object> get props => [uid];
 
   @override
   bool get stringify => true;

@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/src/utils/async_value_ui.dart';
+import '../../../../utils/async_value_ui.dart';
 
 import '../../../../common_widgets/alert_dialogs.dart';
 import '../../data/fake_auth_repository.dart';

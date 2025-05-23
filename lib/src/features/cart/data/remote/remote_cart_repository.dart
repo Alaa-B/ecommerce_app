@@ -1,7 +1,5 @@
-import 'package:ecommerce_app/src/features/cart/data/remote/fake_remote_cart_repository.dart';
-import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
+import '../../domain/cart.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 /// API for reading, watching and writing cart data for a specific user ID
 abstract class RemoteCartRepository {

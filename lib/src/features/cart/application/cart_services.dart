@@ -1,10 +1,10 @@
-import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
-import 'package:ecommerce_app/src/features/cart/data/local/local_cart_repository.dart';
-import 'package:ecommerce_app/src/features/cart/data/remote/remote_cart_repository.dart';
-import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
-import 'package:ecommerce_app/src/features/cart/domain/item.dart';
-import 'package:ecommerce_app/src/features/cart/domain/mutable_cart.dart';
-import 'package:ecommerce_app/src/features/products/domain/product.dart';
+import '../../authentication/data/fake_auth_repository.dart';
+import '../data/local/local_cart_repository.dart';
+import '../data/remote/remote_cart_repository.dart';
+import '../domain/cart.dart';
+import '../domain/item.dart';
+import '../domain/mutable_cart.dart';
+import '../../products/domain/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CartServices {
@@ -30,7 +30,7 @@ class CartServices {
     }
   }
 
-  Future<void> setCart(Item item) async {
+  Future<void> setItem(Item item) async {
     final cart = await _fetchCart();
     final updatedCart = cart.setItem(item);
     await _setCart(updatedCart);

@@ -1,5 +1,5 @@
-import 'package:ecommerce_app/src/features/cart/data/local/local_cart_repository.dart';
-import 'package:ecommerce_app/src/features/cart/data/local/sembast_cart_repository.dart';
+import 'src/features/cart/data/local/local_cart_repository.dart';
+import 'src/features/cart/data/local/sembast_cart_repository.dart';
 
 import 'src/app.dart';
 import 'src/localization/string_hardcoded.dart';

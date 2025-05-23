@@ -1,11 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
+
 import '../../products/domain/product.dart';
 import 'item.dart';
 
 /// Model class representing the shopping cart contents.
-class Cart {
+class Cart extends Equatable {
   const Cart([this.items = const {}]);
 
   /// All the items in the shopping cart, where:
@@ -32,6 +34,9 @@ class Cart {
 
   @override
   String toString() => 'Cart(items: $items)';
+
+  @override
+  List<Object> get props => [items];
 }
 
 extension CartItems on Cart {

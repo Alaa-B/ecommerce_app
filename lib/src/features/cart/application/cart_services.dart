@@ -41,13 +41,22 @@ class CartServices {
     await _setCart(updatedCart);
   }
 
-  Future<void> removeItem(ProductID prodId) async {
+  Future<void> removeItem(ProductID productId) async {
     final cart = await _fetchCart();
-    final updatedCart = cart.removeItemById(prodId);
+    final updatedCart = cart.removeItemById(productId);
     await _setCart(updatedCart);
   }
 }
 
 final cartServicesProvider = Provider<CartServices>((ref) {
   return CartServices(ref);
+});
+
+final productServicesProvider = StreamProvider<Cart>((ref) {
+  final user = ref.watch(authStateChangesProvider).value;
+  if (user != null) {
+    return ref.watch(remoteCartRepositoryProvider).watchCart(user.uid);
+  } else {
+    return ref.read(localCartRepositoryProvider).watchCart();
+  }
 });

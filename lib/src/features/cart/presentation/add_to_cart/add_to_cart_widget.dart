@@ -10,8 +10,6 @@ import '../../../products/domain/product.dart';
 import 'add_to_cart_controller.dart';
 import '../../../../../src/utils/async_value_ui.dart';
 
-/// A widget that shows an [ItemQuantitySelector] along with a [PrimaryButton]
-/// to add the selected quantity of the item to the cart.
 class AddToCartWidget extends ConsumerWidget {
   const AddToCartWidget({super.key, required this.product});
   final Product product;
@@ -34,9 +32,7 @@ class AddToCartWidget extends ConsumerWidget {
           children: [
             Text('Quantity:'.hardcoded),
             ItemQuantitySelector(
-              quantity: 12,
-              // let the user choose up to the available quantity or
-              // 10 items at most
+              quantity: state.hasValue ? state.value! : 1,
               maxQuantity: min(availableQuantity, 10),
               onChanged: state.isLoading
                   ? null
@@ -51,7 +47,6 @@ class AddToCartWidget extends ConsumerWidget {
         gapH8,
         PrimaryButton(
           isLoading: state.isLoading,
-          // only enable the button if there is enough stock
           onPressed: availableQuantity > 0
               ? () => ref
                   .read(addToCartControllerProvider.notifier)

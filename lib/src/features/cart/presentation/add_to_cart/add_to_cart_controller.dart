@@ -18,6 +18,8 @@ class AddToCartController extends StateNotifier<AsyncValue<int>> {
     final value = await AsyncValue.guard(() => cartServices.addItem(item));
     if (value.hasError) {
       state = AsyncError(value.error!, StackTrace.current);
+      //* reset the state
+      state = AsyncData(1);
     } else {
       state = AsyncData(1);
     }

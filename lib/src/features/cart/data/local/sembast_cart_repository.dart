@@ -37,7 +37,6 @@ class SembastCartRepository implements LocalCartRepository {
 
   @override
   Future<void> setCart(Cart cart) {
-    throw Exception('connection failed');
     return store.record(cartItemsKey).put(db, cart.toJson());
   }
 

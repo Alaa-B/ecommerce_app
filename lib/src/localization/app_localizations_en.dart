@@ -12,7 +12,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'My Shop';
 
   @override
-  String get previewNotice => 'This is a preview of the final app that you\'ll build in the course. More features will be added before the course is complete.';
+  String get previewNotice =>
+      'This is a preview of the final app that you\'ll build in the course. More features will be added before the course is complete.';
 
   @override
   String get appBarTitle => 'My Shop';
@@ -123,7 +124,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get userDisabled => 'User disabled';
 
   @override
-  String get tooManyAuthRequests => 'This account has been locked due to too many failed login attempts. Please try again later.';
+  String get tooManyAuthRequests =>
+      'This account has been locked due to too many failed login attempts. Please try again later.';
 
   @override
   String get permissionDenied => 'Permission denied';
@@ -140,7 +142,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yourReviewHint => 'Your review (optional)';
 
   @override
-  String get previouslyReviewedHint => 'You reviewed this product before. You can edit your review.';
+  String get previouslyReviewedHint =>
+      'You reviewed this product before. You can edit your review.';
 
   @override
   String numRatings(int count) {
@@ -184,13 +187,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get priceGreaterThanZero => 'Price must be greater than zero';
 
   @override
-  String get priceLessThanMax => 'The maximum price must be less than \$100,000';
+  String get priceLessThanMax =>
+      'The maximum price must be less than \$100,000';
 
   @override
   String get quantityGreaterThanZero => 'Quantity must be zero or more';
 
   @override
-  String get quantityLessThanMax => 'The maximum quantity must be less than 1,000';
+  String get quantityLessThanMax =>
+      'The maximum quantity must be less than 1,000';
 
   @override
   String get field => 'Field';
@@ -262,13 +267,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get saveCardDuringPayment => 'Save card during payment';
 
   @override
-  String get devBuildTestingNotice => '[DEV build] Use 4242 4242 4242 4242 for testing';
+  String get devBuildTestingNotice =>
+      '[DEV build] Use 4242 4242 4242 4242 for testing';
 
   @override
-  String get missingAddress => 'The operation can\'t be completed (missing address)';
+  String get missingAddress =>
+      'The operation can\'t be completed (missing address)';
 
   @override
-  String get userNotSignedIn => 'The operation can\'t be completed (not signed in)';
+  String get userNotSignedIn =>
+      'The operation can\'t be completed (not signed in)';
 
   @override
   String get orderPlaced => 'Order placed';

@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:ecommerce_app/src/features/cart/application/cart_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,7 +21,7 @@ class AddToCartWidget extends ConsumerWidget {
       addToCartControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
-    final availableQuantity = product.availableQuantity;
+    final availableQuantity = ref.watch(cartItemQuantityProvider(product));
     final state = ref.watch(addToCartControllerProvider);
     debugPrint(state.toString());
     return Column(

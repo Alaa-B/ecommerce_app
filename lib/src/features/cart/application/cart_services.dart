@@ -1,3 +1,7 @@
+import 'dart:math';
+
+import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
+
 import '../../authentication/data/fake_auth_repository.dart';
 import '../data/local/local_cart_repository.dart';
 import '../data/remote/remote_cart_repository.dart';
@@ -52,11 +56,48 @@ final cartServicesProvider = Provider<CartServices>((ref) {
   return CartServices(ref);
 });
 
-final productServicesProvider = StreamProvider<Cart>((ref) {
+final cartProductStreamProvider = StreamProvider<Cart>((ref) {
   final user = ref.watch(authStateChangesProvider).value;
   if (user != null) {
     return ref.watch(remoteCartRepositoryProvider).watchCart(user.uid);
   } else {
     return ref.read(localCartRepositoryProvider).watchCart();
+  }
+});
+
+final cartItemsProvider = Provider<int>((ref) {
+  final cartProductProvider = ref.watch(cartProductStreamProvider);
+  return cartProductProvider.maybeMap(
+    data: (cart) => cart.value.items.length,
+    orElse: () => 0,
+  );
+});
+
+final cartTotalProvider = Provider.autoDispose<double>((ref) {
+  final productsList = ref.watch(productsListStreamProvider).value ?? [];
+  final cartProductsItems =
+      ref.watch(cartProductStreamProvider).value ?? const Cart();
+  if (productsList.isNotEmpty && cartProductsItems.items.isNotEmpty) {
+    double total = 0.0;
+    for (var item in cartProductsItems.toItemsList()) {
+      final product = productsList.firstWhere(
+        (element) => element.id == item.productId,
+      );
+      total += item.quantity * product.price;
+    }
+    return total;
+  } else {
+    return 0.0;
+  }
+});
+
+final cartItemQuantityProvider = Provider.family<int, Product>((ref, product) {
+  final cartItems = ref.watch(cartProductStreamProvider).value;
+  if (cartItems != null) {
+    //* get the item quantity cuz the cart is "Map<ProductID, int> items"
+    final itemQuantity = cartItems.items[product.id] ?? 0;
+    return max(0, product.availableQuantity - itemQuantity);
+  } else {
+    return product.availableQuantity;
   }
 });

@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/src/features/cart/data/remote/fake_remote_cart_repository.dart';
+
 import '../../domain/cart.dart';
 import 'package:riverpod/riverpod.dart';
 
@@ -11,5 +13,5 @@ abstract class RemoteCartRepository {
 }
 
 final remoteCartRepositoryProvider = Provider<RemoteCartRepository>((ref) {
-  throw UnimplementedError();
+  return FakeRemoteCartRepository();
 });

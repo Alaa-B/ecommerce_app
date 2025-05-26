@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/src/features/cart/application/cart_sync_service.dart';
+
 import 'src/features/cart/data/local/local_cart_repository.dart';
 import 'src/features/cart/data/local/sembast_cart_repository.dart';
 
@@ -12,16 +14,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
-  // * Register error handlers. For more info, see:
-  // * https://docs.flutter.dev/testing/errors
   registerErrorHandlers();
   final localCartRepository = await SembastCartRepository.makeDefault();
+  final container = ProviderContainer(overrides: [
+    localCartRepositoryProvider.overrideWithValue(localCartRepository),
+  ]);
+  container.read(cartSyncServiceProvider);
   // * Entry point of the app
   runApp(
-    ProviderScope(
-      overrides: [
-        localCartRepositoryProvider.overrideWithValue(localCartRepository),
-      ],
+    UncontrolledProviderScope(
+      container: container,
       child: MyApp(),
     ),
   );

@@ -35,7 +35,7 @@ void main() {
   }
 
   group('SetCartIem', () {
-    testWidgets('null user, set item in local dp', (tester) async {
+    test('null user, set item in local dp', () async {
       final expectedCart = Cart({'147': 1});
       when(() => authRepository.currentUser).thenReturn(null);
       when(localCartRepository.fetchCart)
@@ -50,7 +50,7 @@ void main() {
       verifyNever(() => remoteCartRepository.setCart(any(), any()));
     });
 
-    testWidgets("user isn't null, set item in remote dp'", (tester) async {
+    test("user isn't null, set item in remote dp'", () async {
       final expectedCart = Cart({'147': 1});
       when(() => authRepository.currentUser).thenReturn(AppUser(uid: 'uid'));
       when(() => remoteCartRepository.fetchCart('uid'))
@@ -60,6 +60,69 @@ void main() {
       final cartServices = makeCartService();
 
       await cartServices.setItem(const Item(productId: '147', quantity: 1));
+
+      verify(() => remoteCartRepository.setCart('uid', expectedCart)).called(1);
+      verifyNever(() => localCartRepository.setCart(any()));
+    });
+  });
+
+  group('AddItem', () {
+    test('null user, add item in local dp', () async {
+      final initialCart = Cart({'147': 1});
+      final expectedCart = Cart({'147': 2});
+      when(() => authRepository.currentUser).thenReturn(null);
+      when(localCartRepository.fetchCart)
+          .thenAnswer((_) => Future.value(initialCart));
+      when(() => localCartRepository.setCart(expectedCart))
+          .thenAnswer(Future.value);
+      final cartServices = makeCartService();
+      await cartServices.addItem(const Item(productId: '147', quantity: 1));
+
+      verify(() => localCartRepository.setCart(expectedCart)).called(1);
+      verifyNever(() => remoteCartRepository.setCart(any(), any()));
+    });
+    test("user isn't null, add item in remote dp'", () async {
+      final initialCart = Cart({'147': 1});
+      final expectedCart = Cart({'147': 2});
+      when(() => authRepository.currentUser).thenReturn(AppUser(uid: 'uid'));
+      when(() => remoteCartRepository.fetchCart('uid'))
+          .thenAnswer((_) => Future.value(initialCart));
+      when(() => remoteCartRepository.setCart('uid', expectedCart))
+          .thenAnswer(Future.value);
+      final cartServices = makeCartService();
+
+      await cartServices.addItem(const Item(productId: '147', quantity: 1));
+
+      verify(() => remoteCartRepository.setCart('uid', expectedCart)).called(1);
+      verifyNever(() => localCartRepository.setCart(any()));
+    });
+  });
+  group('RemoveItem', () {
+    test('null user, remove item from local dp', () async {
+      final initialCart = Cart({'147': 1, '123': 6});
+      final expectedCart = Cart({'123': 6});
+      when(() => authRepository.currentUser).thenReturn(null);
+      when(localCartRepository.fetchCart)
+          .thenAnswer((_) => Future.value(initialCart));
+      when(() => localCartRepository.setCart(expectedCart))
+          .thenAnswer(Future.value);
+      final cartServices = makeCartService();
+      await cartServices.removeItem('147');
+
+      verify(() => localCartRepository.setCart(expectedCart)).called(1);
+      verifyNever(() => remoteCartRepository.setCart(any(), any()));
+    });
+    test("user isn't null, remove item from remote dp'", () async {
+      final initialCart = Cart({'147': 1, '123': 6});
+      final expectedCart = Cart({'123': 6});
+      when(() => authRepository.currentUser).thenReturn(AppUser(uid: 'uid'));
+      when(() => remoteCartRepository.fetchCart('uid'))
+          .thenAnswer((_) => Future.value(initialCart));
+      when(() => remoteCartRepository.setCart('uid', expectedCart))
+          .thenAnswer(Future.value);
+      final cartServices = makeCartService();
+
+      await cartServices.removeItem('147');
 
       verify(() => remoteCartRepository.setCart('uid', expectedCart)).called(1);
       verifyNever(() => localCartRepository.setCart(any()));

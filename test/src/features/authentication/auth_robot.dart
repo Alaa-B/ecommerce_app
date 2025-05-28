@@ -88,6 +88,13 @@ class AuthRobot {
     );
   }
 
+  Future<void> signInWithEmailAndPassword() async {
+    await enterEmail('test@test.com');
+    await tester.pump();
+    await enterPassword('123456');
+    await tapSubmitButton();
+  }
+
   void expectLogoutButton() {
     final Finder logoutButton = find.text('Logout');
     expect(logoutButton, findsOneWidget);

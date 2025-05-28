@@ -56,7 +56,7 @@ final cartServicesProvider = Provider<CartServices>((ref) {
   return CartServices(ref);
 });
 
-final cartProductStreamProvider = StreamProvider<Cart>((ref) {
+final cartServicesStreamProvider = StreamProvider<Cart>((ref) {
   final user = ref.watch(authStateChangesProvider).value;
   if (user != null) {
     return ref.watch(remoteCartRepositoryProvider).watchCart(user.uid);
@@ -65,18 +65,18 @@ final cartProductStreamProvider = StreamProvider<Cart>((ref) {
   }
 });
 
-final cartItemsProvider = Provider<int>((ref) {
-  final cartProductProvider = ref.watch(cartProductStreamProvider);
+final cartItemsCountProvider = Provider<int>((ref) {
+  final cartProductProvider = ref.watch(cartServicesStreamProvider);
   return cartProductProvider.maybeMap(
     data: (cart) => cart.value.items.length,
     orElse: () => 0,
   );
 });
 
-final cartTotalProvider = Provider.autoDispose<double>((ref) {
+final cartTotalPriceProvider = Provider.autoDispose<double>((ref) {
   final productsList = ref.watch(productsListStreamProvider).value ?? [];
   final cartProductsItems =
-      ref.watch(cartProductStreamProvider).value ?? const Cart();
+      ref.watch(cartServicesStreamProvider).value ?? const Cart();
   if (productsList.isNotEmpty && cartProductsItems.items.isNotEmpty) {
     double total = 0.0;
     for (var item in cartProductsItems.toItemsList()) {
@@ -91,8 +91,9 @@ final cartTotalProvider = Provider.autoDispose<double>((ref) {
   }
 });
 
-final cartItemQuantityProvider = Provider.family<int, Product>((ref, product) {
-  final cartItems = ref.watch(cartProductStreamProvider).value;
+final availableItemsQuantityProvider =
+    Provider.family<int, Product>((ref, product) {
+  final cartItems = ref.watch(cartServicesStreamProvider).value;
   if (cartItems != null) {
     //* get the item quantity cuz the cart is "Map<ProductID, int> items"
     final itemQuantity = cartItems.items[product.id] ?? 0;

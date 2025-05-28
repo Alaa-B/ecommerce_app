@@ -21,9 +21,9 @@ class AddToCartWidget extends ConsumerWidget {
       addToCartControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
-    final availableQuantity = ref.watch(cartItemQuantityProvider(product));
+    final availableQuantity =
+        ref.watch(availableItemsQuantityProvider(product));
     final state = ref.watch(addToCartControllerProvider);
-    debugPrint(state.toString());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -33,7 +33,7 @@ class AddToCartWidget extends ConsumerWidget {
           children: [
             Text('Quantity:'.hardcoded),
             ItemQuantitySelector(
-              quantity: state.hasValue ? state.value! : 1,
+              quantity: state.hasError ? 1 : state.value!,
               maxQuantity: min(availableQuantity, 10),
               onChanged: state.isLoading
                   ? null

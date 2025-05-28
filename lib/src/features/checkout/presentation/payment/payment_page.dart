@@ -1,8 +1,10 @@
 import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
 import 'package:ecommerce_app/src/features/cart/application/cart_services.dart';
 import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
+import 'package:ecommerce_app/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../cart/presentation/shopping_cart/shopping_cart_item.dart';
 import '../../../cart/presentation/shopping_cart/shopping_cart_items_builder.dart';
 import 'payment_button.dart';
@@ -14,7 +16,9 @@ class PaymentPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Listen to cart changes on checkout and update the UI.
+    ref.listen<int>(cartItemsCountProvider, (_, next) {
+      if (next == 0) context.goNamed(AppRoutes.orders.name);
+    });
     final cartItems = ref.watch(cartServicesStreamProvider);
     return AsyncValueWidget(
       value: cartItems,

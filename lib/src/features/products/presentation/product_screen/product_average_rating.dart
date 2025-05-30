@@ -21,7 +21,6 @@ class ProductAverageRating extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         gapW8,
-        // TODO: change the text if the width is too short
         Flexible(
           child: Text(
             product.numRatings == 1

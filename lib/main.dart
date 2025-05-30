@@ -14,13 +14,19 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
+
   registerErrorHandlers();
+
   final localCartRepository = await SembastCartRepository.makeDefault();
-  final container = ProviderContainer(overrides: [
-    localCartRepositoryProvider.overrideWithValue(localCartRepository),
-  ]);
+
+  final container = ProviderContainer(
+    overrides: [
+      localCartRepositoryProvider.overrideWithValue(localCartRepository),
+    ],
+  );
+
   container.read(cartSyncServiceProvider);
-  // * Entry point of the app
+
   runApp(
     UncontrolledProviderScope(
       container: container,

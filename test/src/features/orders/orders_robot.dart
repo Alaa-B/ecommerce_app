@@ -2,7 +2,7 @@ import 'package:ecommerce_app/src/features/orders/presentation/orders_list/order
 import 'package:flutter_test/flutter_test.dart';
 
 class OrdersRobot {
-  OrdersRobot(this.tester);
+  const OrdersRobot(this.tester);
   final WidgetTester tester;
 
   void expectFindZeroOrders() {

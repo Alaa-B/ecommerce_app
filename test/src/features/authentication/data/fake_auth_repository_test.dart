@@ -1,12 +1,12 @@
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
-import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
+import 'package:ecommerce_app/src/features/authentication/domain/fake_app_user.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   const String email = 'test@test.com';
   const String password = '123456789';
   final String uId = email.split('').reversed.join();
-  final appUser = AppUser(uid: uId, email: email);
+  final appUser = FakeAppUser(uid: uId, email: email, password: password);
 
   FakeAuthRepository fakeAuthRepository() => FakeAuthRepository(delay: false);
   group('Fake Auth Repository', () {
@@ -19,7 +19,7 @@ void main() {
     test('sign in with email & password return appUser', () async {
       final authRepo = fakeAuthRepository();
       addTearDown(authRepo.dispose);
-      await authRepo.signInWithEmailAndPassword(email, password);
+      await authRepo.createUserEmailAndPassword(email, password);
       expect(authRepo.currentUser, appUser);
       expect(authRepo.authStateChanges(), emits(appUser));
     });

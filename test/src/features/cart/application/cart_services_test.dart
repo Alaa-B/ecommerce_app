@@ -52,7 +52,8 @@ void main() {
 
     test("user isn't null, set item in remote dp'", () async {
       final expectedCart = Cart({'147': 1});
-      when(() => authRepository.currentUser).thenReturn(AppUser(uid: 'uid'));
+      when(() => authRepository.currentUser)
+          .thenReturn(AppUser(uid: 'uid', email: 'test@test.com'));
       when(() => remoteCartRepository.fetchCart('uid'))
           .thenAnswer((_) => Future.value(Cart()));
       when(() => remoteCartRepository.setCart('uid', expectedCart))
@@ -84,7 +85,8 @@ void main() {
     test("user isn't null, add item in remote dp'", () async {
       final initialCart = Cart({'147': 1});
       final expectedCart = Cart({'147': 2});
-      when(() => authRepository.currentUser).thenReturn(AppUser(uid: 'uid'));
+      when(() => authRepository.currentUser)
+          .thenReturn(AppUser(uid: 'uid', email: 'test@test.com'));
       when(() => remoteCartRepository.fetchCart('uid'))
           .thenAnswer((_) => Future.value(initialCart));
       when(() => remoteCartRepository.setCart('uid', expectedCart))
@@ -115,7 +117,8 @@ void main() {
     test("user isn't null, remove item from remote dp'", () async {
       final initialCart = Cart({'147': 1, '123': 6});
       final expectedCart = Cart({'123': 6});
-      when(() => authRepository.currentUser).thenReturn(AppUser(uid: 'uid'));
+      when(() => authRepository.currentUser)
+          .thenReturn(AppUser(uid: 'uid', email: 'test@test.com'));
       when(() => remoteCartRepository.fetchCart('uid'))
           .thenAnswer((_) => Future.value(initialCart));
       when(() => remoteCartRepository.setCart('uid', expectedCart))

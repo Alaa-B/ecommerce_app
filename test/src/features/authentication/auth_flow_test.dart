@@ -11,6 +11,7 @@ void main() {
     r.expectFindAllProducts();
     await r.openPopUpMenu();
     await r.auth.tapSignInButton();
+    await r.auth.tapFormToggleButton();
     await r.auth.enterEmail(email);
     await r.auth.enterPassword(password);
     await r.auth.tapSubmitButton();

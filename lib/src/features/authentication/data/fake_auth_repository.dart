@@ -1,3 +1,6 @@
+import 'package:ecommerce_app/src/features/authentication/domain/fake_app_user.dart';
+import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+
 import '../domain/app_user.dart';
 import '../../../utils/delay.dart';
 import '../../../utils/in_memory_store.dart';
@@ -12,14 +15,40 @@ class FakeAuthRepository {
   Stream<AppUser?> authStateChanges() => _authState.stream;
   AppUser? get currentUser => _authState.value;
 
+  final List<FakeAppUser> _users = [];
+
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     await delayed(delay);
-    _authState.value = AppUser(uid: _createUserId(email), email: email);
+    for (var u in _users) {
+      if (u.email == email && u.password == password) {
+        _authState.value = u;
+        return;
+      }
+      if (u.email == email && u.password != password) {
+        throw Exception('wrong password'.hardcoded);
+      }
+    }
+    throw Exception('email not found'.hardcoded);
   }
 
   Future<void> createUserEmailAndPassword(String email, String password) async {
     await delayed(delay);
-    _authState.value = AppUser(uid: _createUserId(email), email: email);
+    for (final u in _users) {
+      if (u.email == email) {
+        throw Exception('Email already in use'.hardcoded);
+      }
+    }
+    if (password.length < 8) {
+      throw Exception('Password is too weak'.hardcoded);
+    }
+    _createNewUser(email, password);
+  }
+
+  void _createNewUser(String email, String password) {
+    final user = FakeAppUser(
+        uid: _createUserId(email), email: email, password: password);
+    _users.add(user);
+    _authState.value = user;
   }
 
   void dispose() {
@@ -38,7 +67,7 @@ class FakeAuthRepository {
 
 final authRepositoryProvider = Provider<FakeAuthRepository>((ref) {
   final fakeAuthRepo = FakeAuthRepository();
-  ref.onDispose(() => fakeAuthRepo.dispose());
+  ref.onDispose(fakeAuthRepo.dispose);
   return fakeAuthRepo;
 });
 

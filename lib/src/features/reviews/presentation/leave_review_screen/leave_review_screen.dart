@@ -70,7 +70,7 @@ class _LeaveReviewFormState extends State<LeaveReviewForm> {
     // if (previousReview == null ||
     //     _rating != previousReview.score ||
     //     _controller.text != previousReview.comment) {
-    //   // TODO: Submit review
+    // // TODO: Submit review
     // }
     // Navigator.of(context).pop();
   }

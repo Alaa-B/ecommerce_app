@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 
 class InMemoryStore<T> {
   /// Creates an InMemoryStore with an initial value.
-  InMemoryStore(T inital) : _subject = BehaviorSubject<T>.seeded(inital);
+  InMemoryStore(T initial) : _subject = BehaviorSubject<T>.seeded(initial);
   final BehaviorSubject<T> _subject;
 
   // * The stream of the store. It emits the current value and any changes to it.

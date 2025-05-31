@@ -13,5 +13,5 @@ abstract class RemoteCartRepository {
 }
 
 final remoteCartRepositoryProvider = Provider<RemoteCartRepository>((ref) {
-  return FakeRemoteCartRepository();
+  return FakeRemoteCartRepository(addDelay: false);
 });

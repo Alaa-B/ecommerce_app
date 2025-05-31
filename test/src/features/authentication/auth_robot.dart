@@ -107,7 +107,6 @@ class AuthRobot {
     await enterEmail('test1@test.com');
     await tester.pump();
     await enterPassword('123456789');
-    await tester.pump();
     await tapSubmitButton();
   }
 

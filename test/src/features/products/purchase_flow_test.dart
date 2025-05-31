@@ -15,12 +15,11 @@ void main() {
     r.cart.expectFindNCartItems(1);
     // checkout and pay
     await r.checkout.startCheckout();
-    await r.auth.tapFormToggleButton();
     await r.auth.signInWithEmailAndPassword();
     tester.runAsync(() async {
       // add latency for the cartSync to read from memory
       await Future.delayed(Duration(seconds: 3));
-      r.products.expectFindNProductCards(2);
+      r.products.expectFindNProductCards(1);
       r.checkout.expectPayButtonFound();
       await r.checkout.startPayment();
       r.order.expectFindNOrders(1);

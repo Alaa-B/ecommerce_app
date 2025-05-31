@@ -1,6 +1,5 @@
+import 'package:ecommerce_app/src/exceptions/app_exception.dart';
 import 'package:ecommerce_app/src/features/authentication/domain/fake_app_user.dart';
-import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
-
 import '../domain/app_user.dart';
 import '../../../utils/delay.dart';
 import '../../../utils/in_memory_store.dart';
@@ -25,21 +24,21 @@ class FakeAuthRepository {
         return;
       }
       if (u.email == email && u.password != password) {
-        throw Exception('wrong password'.hardcoded);
+        throw WrongPasswordException();
       }
     }
-    throw Exception('email not found'.hardcoded);
+    throw UserNotFoundException();
   }
 
   Future<void> createUserEmailAndPassword(String email, String password) async {
     await delayed(delay);
     for (final u in _users) {
       if (u.email == email) {
-        throw Exception('Email already in use'.hardcoded);
+        throw EmailAlreadyInUseException();
       }
     }
     if (password.length < 8) {
-      throw Exception('Password is too weak'.hardcoded);
+      throw WeakPasswordException();
     }
     _createNewUser(email, password);
   }

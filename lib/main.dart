@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/src/exceptions/async_error_logger.dart';
+import 'package:ecommerce_app/src/exceptions/error_logger.dart';
 import 'package:ecommerce_app/src/features/cart/application/cart_sync_service.dart';
 
 import 'src/features/cart/data/local/local_cart_repository.dart';
@@ -15,17 +17,17 @@ void main() async {
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
 
-  registerErrorHandlers();
-
   final localCartRepository = await SembastCartRepository.makeDefault();
 
-  final container = ProviderContainer(
-    overrides: [
-      localCartRepositoryProvider.overrideWithValue(localCartRepository),
-    ],
-  );
-
+  final container = ProviderContainer(overrides: [
+    localCartRepositoryProvider.overrideWithValue(localCartRepository),
+  ], observers: [
+    AsyncErrorLogger()
+  ]);
+  final errorLogger = container.read(errorLoggerProvider);
   container.read(cartSyncServiceProvider);
+
+  registerErrorHandlers(errorLogger);
 
   runApp(
     UncontrolledProviderScope(
@@ -35,15 +37,15 @@ void main() async {
   );
 }
 
-void registerErrorHandlers() {
+void registerErrorHandlers(ErrorLogger errorLogger) {
   // * Show some error UI if any uncaught exception happens
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
-    debugPrint(details.toString());
+    errorLogger.logError(details.exception, details.stack);
   };
   // * Handle errors from the underlying platform/OS
   PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
-    debugPrint(error.toString());
+    errorLogger.logError(error, stack);
     return true;
   };
   // * Show some error UI when any widget in the app fails to build

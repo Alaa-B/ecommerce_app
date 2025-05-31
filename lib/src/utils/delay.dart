@@ -1,6 +1,6 @@
-Future<void> delayed(bool delayed, [int miliseconds = 200]) {
+Future<void> delayed(bool delayed, [int milliseconds = 600]) {
   if (delayed) {
-    return Future.delayed(Duration(milliseconds: miliseconds));
+    return Future.delayed(Duration(milliseconds: milliseconds));
   } else {
     return Future.value();
   }

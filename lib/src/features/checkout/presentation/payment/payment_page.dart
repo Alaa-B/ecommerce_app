@@ -20,7 +20,7 @@ class PaymentPage extends ConsumerWidget {
       if (next == 0) context.goNamed(AppRoutes.orders.name);
     });
     final cartItems = ref.watch(cartServicesStreamProvider);
-    return AsyncValueWidget(
+    return AsyncValueWidget<Cart>(
       value: cartItems,
       data: (cart) => ShoppingCartItemsBuilder(
         items: cart.toItemsList(),

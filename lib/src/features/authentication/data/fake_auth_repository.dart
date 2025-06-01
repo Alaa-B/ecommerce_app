@@ -70,7 +70,7 @@ final authRepositoryProvider = Provider<FakeAuthRepository>((ref) {
   return fakeAuthRepo;
 });
 
-final authStateChangesProvider = StreamProvider<AppUser?>((ref) {
+final authStateChangesStreamProvider = StreamProvider<AppUser?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return authRepository.authStateChanges();
 });

@@ -64,7 +64,7 @@ class UserDataTable extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final style = Theme.of(context).textTheme.titleSmall!;
-    final user = ref.watch(authStateChangesProvider).value;
+    final user = ref.watch(authStateChangesStreamProvider).value;
     return DataTable(
       columns: [
         DataColumn(

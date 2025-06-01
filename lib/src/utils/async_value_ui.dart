@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 extension AsyncValueUi on AsyncValue {
-  void showAlertDialogOnError(BuildContext ctx) {
+  void showAlertDialogOnError(BuildContext context) {
     if (!isLoading && hasError) {
       showExceptionAlertDialog(
-          context: ctx, title: 'Error happen'.hardcoded, exception: error);
+          context: context, title: 'Error happen'.hardcoded, exception: error);
     }
   }
 }

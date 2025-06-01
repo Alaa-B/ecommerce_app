@@ -57,7 +57,7 @@ final cartServicesProvider = Provider<CartServices>((ref) {
 });
 
 final cartServicesStreamProvider = StreamProvider<Cart>((ref) {
-  final user = ref.watch(authStateChangesProvider).value;
+  final user = ref.watch(authStateChangesStreamProvider).value;
   if (user != null) {
     return ref.watch(remoteCartRepositoryProvider).watchCart(user.uid);
   } else {

@@ -11,7 +11,6 @@ class ReviewService {
   ReviewService({required this.ref});
   Future<void> submitReview(
     ProductID productId,
-    String uId,
     Review review,
   ) async {
     final user = ref.read(authRepositoryProvider).currentUser;
@@ -22,7 +21,7 @@ class ReviewService {
     }
     await ref.read(fakeReviewRepositoryProvider).setReview(
           productId: productId,
-          uId: uId,
+          uId: user.uid,
           review: review,
         );
   }
@@ -31,9 +30,10 @@ class ReviewService {
 final reviewServiceProvider = Provider<ReviewService>((ref) {
   return ReviewService(ref: ref);
 });
+
 final watchUserReviewsProvider =
-    StreamProvider.family<Review?, ProductID>((ref, productId) {
-  final user = ref.read(authRepositoryProvider).currentUser;
+    StreamProvider.autoDispose.family<Review?, ProductID>((ref, productId) {
+  final user = ref.watch(authStateChangesStreamProvider).value;
   if (user != null) {
     return ref
         .watch(fakeReviewRepositoryProvider)
@@ -44,8 +44,8 @@ final watchUserReviewsProvider =
 });
 
 final fetchUserReviewsProvider =
-    FutureProvider.family<Review?, ProductID>((ref, productId) async {
-  final user = ref.read(authRepositoryProvider).currentUser;
+    FutureProvider.autoDispose.family<Review?, ProductID>((ref, productId) {
+  final user = ref.watch(authStateChangesStreamProvider).value;
   if (user != null) {
     return ref
         .watch(fakeReviewRepositoryProvider)

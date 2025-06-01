@@ -18,7 +18,7 @@ class CartSyncService {
   final Ref ref;
   void _init() {
     ref.listen<AsyncValue<AppUser?>>(
-      authStateChangesProvider,
+      authStateChangesStreamProvider,
       (previous, next) {
         if (previous?.value == null && next.value != null) {
           _moveItemToRemoteCart(next.value!.uid);

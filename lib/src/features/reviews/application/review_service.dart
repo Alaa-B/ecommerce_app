@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
+import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/features/reviews/data/fake_review_repository.dart';
 import 'package:ecommerce_app/src/features/reviews/domain/review.dart';
@@ -24,6 +25,37 @@ class ReviewService {
           uId: user.uid,
           review: review,
         );
+    _updateAvgReviewsRating(productId);
+  }
+
+  Future<void> _updateAvgReviewsRating(ProductID productId) async {
+    final reviews = await ref
+        .read(fakeReviewRepositoryProvider)
+        .fetchProductReviews(productId);
+    final avgRating = _avgReviewRating(reviews);
+    final product =
+        ref.read(productsRepositoryProvider).getProductById(productId);
+    if (product == null) {
+      throw StateError("this product isn't found $productId".hardcoded);
+    }
+    final updatedProduct = product.copyWith(
+      avgRating: avgRating,
+      numRatings: reviews.length,
+    );
+    await ref.read(productsRepositoryProvider).setProduct(updatedProduct);
+  }
+
+  double _avgReviewRating(List<Review> reviews) {
+    if (reviews.isNotEmpty) {
+      double total = 0.0;
+      for (var review in reviews) {
+        total += review.score;
+      }
+      final avgRating = total / reviews.length;
+      return avgRating;
+    } else {
+      return 0.0;
+    }
   }
 }
 

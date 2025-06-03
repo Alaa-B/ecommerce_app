@@ -35,7 +35,7 @@ class Robot {
 
   Future<void> pumpMyApp() async {
     final authRepo = FakeAuthRepository(delay: false);
-    final productRepo = FakeProductsRepository(isDelay: false);
+    final productRepo = FakeProductsRepository(addDelay: false);
     final localCartRepo = FakeLocalCartRepository(addDelay: false);
     final remoteCartRepo = FakeRemoteCartRepository(addDelay: false);
     final container = ProviderContainer(overrides: [

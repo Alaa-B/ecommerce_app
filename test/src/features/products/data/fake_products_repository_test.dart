@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('Fake Products Repository', () {
     FakeProductsRepository fakeProductsRepository() =>
-        FakeProductsRepository(isDelay: false);
+        FakeProductsRepository(addDelay: false);
     test('fake auth repository return kTestProducts', () {
       final productsRepository = fakeProductsRepository();
       expect(productsRepository.getProductsList(), kTestProducts);

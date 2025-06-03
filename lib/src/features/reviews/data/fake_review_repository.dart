@@ -9,18 +9,18 @@ class FakeReviewRepository {
   final bool addDelay;
   final _reviews = InMemoryStore<Map<ProductID, Map<String, Review>>>({});
 
-  Stream<Review?> watchUserReview(String productId, String uId) {
+  Stream<Review?> watchUserReview(ProductID productId, String uId) {
     return _reviews.stream.map((value) {
       return value[productId]?[uId];
     });
   }
 
-  Future<Review?> fetchUserReview(String productId, String uId) async {
+  Future<Review?> fetchUserReview(ProductID productId, String uId) async {
     await delayed(addDelay);
     return Future.value(_reviews.value[productId]?[uId]);
   }
 
-  Stream<List<Review>> watchProductReviews(String productId) {
+  Stream<List<Review>> watchProductReviews(ProductID productId) {
     return _reviews.stream.map((value) {
       final reviews = value[productId];
       if (reviews != null) {
@@ -31,7 +31,7 @@ class FakeReviewRepository {
     });
   }
 
-  Future<List<Review>> fetchProductReviews(String productId) {
+  Future<List<Review>> fetchProductReviews(ProductID productId) {
     final reviews = _reviews.value[productId];
     if (reviews != null) {
       return Future.value(reviews.values.toList());
@@ -61,7 +61,7 @@ final fakeReviewRepositoryProvider = Provider<FakeReviewRepository>((ref) {
   return FakeReviewRepository();
 });
 
-final reviewRepositoryStreamProvider = StreamProvider.autoDispose
+final productReviewStreamProvider = StreamProvider.autoDispose
     .family<List<Review>, ProductID>((ref, productId) {
   return ref.watch(fakeReviewRepositoryProvider).watchProductReviews(productId);
 });

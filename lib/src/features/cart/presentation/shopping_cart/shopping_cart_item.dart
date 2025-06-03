@@ -1,7 +1,8 @@
 import 'dart:math';
+import 'package:ecommerce_app/src/utils/async_value_ui.dart';
+import 'package:ecommerce_app/src/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../common_widgets/async_value_widget.dart';
 import '../../../products/data/fake_products_repository.dart';
@@ -73,10 +74,11 @@ class ShoppingCartItemContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: error handling
-    // TODO: Inject formatter
+    ref.listen(shoppingCartScreenControllerProvider,
+        (_, next) => next.showAlertDialogOnError(context));
     final state = ref.watch(shoppingCartScreenControllerProvider);
-    final priceFormatted = NumberFormat.simpleCurrency().format(product.price);
+    final priceFormatted =
+        ref.watch(currencyFormatterProvider).format(product.price);
     return ResponsiveTwoColumnLayout(
       startFlex: 1,
       endFlex: 2,

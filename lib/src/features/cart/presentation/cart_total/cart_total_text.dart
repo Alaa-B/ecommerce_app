@@ -9,9 +9,9 @@ class CartTotalText extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Inject formatter
     final cartTotal = ref.watch(cartTotalPriceProvider);
-    final totalFormatted = kCurrencyFormatter.format(cartTotal);
+    final totalFormatted =
+        ref.watch(currencyFormatterProvider).format(cartTotal);
     return Text(
       'Total: $totalFormatted',
       style: Theme.of(context).textTheme.headlineSmall,

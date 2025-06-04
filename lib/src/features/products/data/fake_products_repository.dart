@@ -7,14 +7,6 @@ import '../../../utils/delay.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FakeProductsRepository {
-  // FakeProductsRepository._instance();
-  // static final FakeProductsRepository _inst =
-  //     FakeProductsRepository._instance();
-
-  // factory FakeProductsRepository({bool isDelay = true}) {
-  //   _inst.delay = isDelay;
-  //   return _inst;
-  // }
   FakeProductsRepository({this.addDelay = true});
 
   final _products = InMemoryStore<List<Product>>(List.from(kTestProducts));
@@ -26,6 +18,18 @@ class FakeProductsRepository {
 
   Product? getProductById(String id) {
     return _getProductById(_products.value, id);
+  }
+
+  Future<List<Product>> searchProductList(String query) async {
+    final products = await fetchProductsList();
+    final lowerCaseQuery = query.toLowerCase();
+    assert(
+      products.length <= 100,
+      'the length of the product is too long to search on client side',
+    );
+    return products.where((p) {
+      return p.title.toLowerCase().contains(lowerCaseQuery);
+    }).toList();
   }
 
   Future<List<Product>> fetchProductsList() async {
@@ -93,4 +97,11 @@ final productStreamByIdProvider =
   //   link.close();
   // });
   return productsRepository.watchProductById(id);
+});
+
+final productsListSearchProvider = FutureProvider.family
+    .autoDispose<List<Product>, String>((ref, query) async {
+  final link = ref.keepAlive();
+  Timer(const Duration(seconds: 5), link.close);
+  return ref.watch(productsRepositoryProvider).searchProductList(query);
 });

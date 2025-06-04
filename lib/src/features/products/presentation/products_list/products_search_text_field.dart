@@ -1,16 +1,19 @@
+import 'package:ecommerce_app/src/features/products/presentation/products_list/products_list_state_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../localization/string_hardcoded.dart';
 
 /// Search field used to filter products by name
-class ProductsSearchTextField extends StatefulWidget {
+class ProductsSearchTextField extends ConsumerStatefulWidget {
   const ProductsSearchTextField({super.key});
 
   @override
-  State<ProductsSearchTextField> createState() =>
+  ConsumerState<ProductsSearchTextField> createState() =>
       _ProductsSearchTextFieldState();
 }
 
-class _ProductsSearchTextFieldState extends State<ProductsSearchTextField> {
+class _ProductsSearchTextFieldState
+    extends ConsumerState<ProductsSearchTextField> {
   final _controller = TextEditingController();
 
   @override
@@ -22,9 +25,6 @@ class _ProductsSearchTextFieldState extends State<ProductsSearchTextField> {
 
   @override
   Widget build(BuildContext context) {
-    // See this article for more info about how to use [ValueListenableBuilder]
-    // with TextField:
-    // https://codewithandrea.com/articles/flutter-text-field-form-validation/
     return ValueListenableBuilder<TextEditingValue>(
       valueListenable: _controller,
       builder: (context, value, _) {
@@ -39,14 +39,14 @@ class _ProductsSearchTextFieldState extends State<ProductsSearchTextField> {
                 ? IconButton(
                     onPressed: () {
                       _controller.clear();
-                      // TODO: Clear search state
+                      ref.read(productsListStateProvider.notifier).state = '';
                     },
                     icon: const Icon(Icons.clear),
                   )
                 : null,
           ),
-          // TODO: Implement onChanged
-          onChanged: null,
+          onChanged: (query) =>
+              ref.read(productsListStateProvider.notifier).state = query,
         );
       },
     );

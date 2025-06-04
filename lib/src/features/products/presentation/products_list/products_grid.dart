@@ -1,7 +1,7 @@
 import 'dart:math';
 
+import 'package:ecommerce_app/src/features/products/presentation/products_list/products_list_state_provider.dart';
 import '../../../../common_widgets/async_value_widget.dart';
-import '../../data/fake_products_repository.dart';
 import '../../domain/product.dart';
 import 'product_card.dart';
 import '../../../../localization/string_hardcoded.dart';
@@ -18,7 +18,7 @@ class ProductsGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final productsRepository = ref.watch(productsListStreamProvider);
+    final productsRepository = ref.watch(productSearchResultProvider);
     return AsyncValueWidget<List<Product>>(
       value: productsRepository,
       data: (products) => products.isEmpty

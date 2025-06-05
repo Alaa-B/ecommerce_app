@@ -1,8 +1,8 @@
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
+import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../authentication/presentation/sign_in/email_password_sign_in_screen.dart';
-import '../../../authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import '../payment/payment_page.dart';
 import '../../../../localization/string_hardcoded.dart';
 

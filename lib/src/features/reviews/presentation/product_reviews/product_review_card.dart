@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../common_widgets/alert_dialogs.dart';
 import 'product_rating_bar.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../domain/review.dart';
@@ -26,10 +25,7 @@ class ProductReviewCard extends ConsumerWidget {
                   initialRating: review.score,
                   ignoreGestures: true,
                   itemSize: 20,
-                  // TODO: Implement onRatingUpdate
-                  onRatingUpdate: (value) {
-                    showNotImplementedAlertDialog(context: context);
-                  },
+                  onRatingUpdate: (value) {},
                 ),
                 Text(dateFormatted,
                     style: Theme.of(context).textTheme.bodySmall),

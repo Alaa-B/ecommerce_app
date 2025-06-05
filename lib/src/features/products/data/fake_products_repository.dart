@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:ecommerce_app/src/utils/in_memory_store.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../constants/test_products.dart';
 import '../domain/product.dart';
 import '../../../utils/delay.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+part 'fake_products_repository.g.dart';
 
 class FakeProductsRepository {
   FakeProductsRepository({this.addDelay = true});
@@ -69,39 +72,30 @@ class FakeProductsRepository {
   }
 }
 
-final productsRepositoryProvider = Provider<FakeProductsRepository>((ref) {
+@riverpod
+FakeProductsRepository productsRepository(Ref ref) {
   return FakeProductsRepository();
-});
+}
 
-final productsListStreamProvider =
-    StreamProvider.autoDispose<List<Product>>((ref) {
+@riverpod
+Stream<List<Product>> productsListStream(Ref ref) {
   final repository = ref.watch(productsRepositoryProvider);
   return repository.watchProductsList();
-});
-final productsListFutureProvider =
-    FutureProvider.autoDispose<List<Product>>((ref) {
+}
+
+@riverpod
+Future<List<Product>> productsListFuture(Ref ref) {
   final repository = ref.watch(productsRepositoryProvider);
   return repository.fetchProductsList();
-});
+}
 
-final productStreamByIdProvider =
-    StreamProvider.autoDispose.family<Product?, String>((ref, id) {
+@riverpod
+Stream<Product?> productStreamById(Ref ref, ProductID id) {
   final productsRepository = ref.watch(productsRepositoryProvider);
-  //* this line is used to control the lifecycle of the stream.
-  // debugPrint('product stream by Id:$id created');
-  // ref.onDispose(() {
-  //   debugPrint('product stream by Id:$id disposed');
-  // });
-  // final link = ref.keepAlive();
-  // Timer(Duration(seconds: 5), () {
-  //   link.close();
-  // });
   return productsRepository.watchProductById(id);
-});
+}
 
-final productsListSearchProvider = FutureProvider.family
-    .autoDispose<List<Product>, String>((ref, query) async {
-  final link = ref.keepAlive();
-  Timer(const Duration(seconds: 5), link.close);
+@riverpod
+Future<List<Product>> productsListSearch(Ref ref, String query) {
   return ref.watch(productsRepositoryProvider).searchProductList(query);
-});
+}

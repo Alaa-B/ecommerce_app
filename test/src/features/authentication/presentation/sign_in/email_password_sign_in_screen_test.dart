@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
+import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../mocks.dart';
@@ -8,7 +8,10 @@ import 'package:mocktail/mocktail.dart';
 void main() {
   final email = 'test@test.com';
   final password = '165165416';
-  final authRepo = MockAuthRepository();
+  late MockAuthRepository authRepo;
+  setUp(() {
+    authRepo = MockAuthRepository();
+  });
   testWidgets('''
 Given signIn formType
 When tap signIn button

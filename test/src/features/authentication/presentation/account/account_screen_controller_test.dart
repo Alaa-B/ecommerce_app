@@ -25,6 +25,7 @@ void main() {
 
   group('AccountScreenController', () {
     test('initial state is AsyncData', () {
+      // setup
       final authRepository = MockAuthRepository();
       // create the ProviderContainer with the mock auth repository
       final container = makeProviderContainer(authRepository);

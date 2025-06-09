@@ -11,18 +11,17 @@ class AddToCartController extends _$AddToCartController {
   FutureOr<void> build() {}
 
   Future<void> addToCart(ProductID productId) async {
+    final cartService = ref.read(cartServicesProvider);
+    final quantity = ref.read(itemQuantityControllerProvider);
     final item = Item(
-        productId: productId,
-        quantity: ref.read(itemQuantityControllerProvider));
+      productId: productId,
+      quantity: quantity,
+    );
     state = const AsyncLoading<void>();
-    state = await AsyncValue.guard(
-        () => ref.watch(cartServicesProvider).addItem(item));
+    state = await AsyncValue.guard(() => cartService.addItem(item));
 
     if (!state.hasError) {
       ref.read(itemQuantityControllerProvider.notifier).updateQuantity(1);
-    } else {
-      state = AsyncError(state.error!, StackTrace.current);
-      state = AsyncData(null);
     }
   }
 }

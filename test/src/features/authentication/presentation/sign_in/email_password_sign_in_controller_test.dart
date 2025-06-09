@@ -21,9 +21,14 @@ void main() {
     return container;
   }
 
+  setUpAll(() {
+    registerFallbackValue(const AsyncLoading<int>());
+  });
+
   const email = 'test@test.com';
   const password = 'password';
   const formType = EmailPasswordSignInFormType.signIn;
+
   group('SignInSubmit', () {
     test('''
     Given formType is signIn
@@ -31,25 +36,39 @@ void main() {
     Then return true
     And state is AsyncData
     ''', () async {
-      final authRepo = MockAuthRepository();
-      when(
-        () => authRepo.signInWithEmailAndPassword(email, password),
-      ).thenAnswer((_) => Future.value());
-      final container = makeProviderContainer(authRepo);
+      // setup
+      final authRepository = MockAuthRepository();
+      when(() => authRepository.signInWithEmailAndPassword(
+            email,
+            password,
+          )).thenAnswer((_) => Future.value());
+      final container = makeProviderContainer(authRepository);
+      final listener = Listener<AsyncValue<void>>();
+      container.listen(
+        emailPasswordSignInControllerProvider,
+        listener.call,
+        fireImmediately: true,
+      );
+      const data = AsyncData<void>(null);
+      // verify initial value from build method
+      verify(() => listener(null, data));
+      // run
       final controller =
           container.read(emailPasswordSignInControllerProvider.notifier);
-      expectLater(
-          controller.stream,
-          emitsInOrder([
-            AsyncLoading<void>(),
-            AsyncData<void>(null),
-          ]));
       final result = await controller.submit(
-          email: email, password: password, formType: formType);
-      verify(
-        () => authRepo.signInWithEmailAndPassword(email, password),
-      ).called(1);
+        email: email,
+        password: password,
+        formType: formType,
+      );
+      // verify
       expect(result, true);
+      verifyInOrder([
+        // set loading state
+        () => listener(data, any(that: isA<AsyncLoading>())),
+        // data when complete
+        () => listener(any(that: isA<AsyncLoading>()), data),
+      ]);
+      verifyNoMoreInteractions(listener);
     });
     test('''
     Given formType is signIn
@@ -57,26 +76,40 @@ void main() {
     Then return false
     And state is AsyncError
     ''', () async {
-      final authRepo = MockAuthRepository();
-      when(
-        () => authRepo.signInWithEmailAndPassword(email, password),
-      ).thenThrow(Exception('signIn failed'));
-      final container = makeProviderContainer(authRepo);
+      // setup
+      final authRepository = MockAuthRepository();
+      final exception = Exception('Connection failed');
+      when(() => authRepository.signInWithEmailAndPassword(
+            email,
+            password,
+          )).thenThrow(exception);
+      final container = makeProviderContainer(authRepository);
+      final listener = Listener<AsyncValue<void>>();
+      container.listen(
+        emailPasswordSignInControllerProvider,
+        listener.call,
+        fireImmediately: true,
+      );
+      // verify initial value from build method
+      verify(() => listener(null, const AsyncData<void>(null)));
+      // run
       final controller =
           container.read(emailPasswordSignInControllerProvider.notifier);
-      expectLater(
-          controller.stream,
-          emitsInOrder([
-            AsyncLoading<void>(),
-            predicate<AsyncValue<void>>((state) {
-              expect(state.hasError, true);
-              return true;
-            }),
-          ]));
       final result = await controller.submit(
-          email: email, password: password, formType: formType);
-
+        email: email,
+        password: password,
+        formType: formType,
+      );
+      // verify
       expect(result, false);
+      verifyInOrder([
+        // set loading state
+        () => listener(
+            const AsyncData<void>(null), any(that: isA<AsyncLoading>())),
+        // error when complete
+        () => listener(
+            any(that: isA<AsyncLoading>()), any(that: isA<AsyncError>())),
+      ]);
     });
   });
 }

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../authentication/data/fake_auth_repository.dart';
 import '../data/local/local_cart_repository.dart';
@@ -10,6 +11,8 @@ import '../domain/item.dart';
 import '../domain/mutable_cart.dart';
 import '../../products/domain/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+part 'cart_services.g.dart';
 
 class CartServices {
   CartServices(this.ref);
@@ -52,28 +55,32 @@ class CartServices {
   }
 }
 
-final cartServicesProvider = Provider<CartServices>((ref) {
+@Riverpod(keepAlive: true)
+CartServices cartServices(Ref ref) {
   return CartServices(ref);
-});
+}
 
-final cartServicesStreamProvider = StreamProvider<Cart>((ref) {
+@Riverpod(keepAlive: true)
+Stream<Cart> cartServicesStream(Ref ref) {
   final user = ref.watch(authStateChangesStreamProvider).value;
   if (user != null) {
     return ref.watch(remoteCartRepositoryProvider).watchCart(user.uid);
   } else {
     return ref.read(localCartRepositoryProvider).watchCart();
   }
-});
+}
 
-final cartItemsCountProvider = Provider<int>((ref) {
+@Riverpod(keepAlive: true)
+int cartItemsCount(Ref ref) {
   final cartProductProvider = ref.watch(cartServicesStreamProvider);
   return cartProductProvider.maybeMap(
     data: (cart) => cart.value.items.length,
     orElse: () => 0,
   );
-});
+}
 
-final cartTotalPriceProvider = Provider.autoDispose<double>((ref) {
+@Riverpod(keepAlive: true)
+double cartTotalPrice(Ref ref) {
   final productsList = ref.watch(productsListStreamProvider).value ?? [];
   final cartProductsItems =
       ref.watch(cartServicesStreamProvider).value ?? const Cart();
@@ -89,10 +96,10 @@ final cartTotalPriceProvider = Provider.autoDispose<double>((ref) {
   } else {
     return 0.0;
   }
-});
+}
 
-final availableItemsQuantityProvider =
-    Provider.family<int, Product>((ref, product) {
+@riverpod
+int availableItemsQuantity(Ref ref, Product product) {
   final cartItems = ref.watch(cartServicesStreamProvider).value;
   if (cartItems != null) {
     //* get the item quantity cuz the cart is "Map<ProductID, int> items"
@@ -101,4 +108,4 @@ final availableItemsQuantityProvider =
   } else {
     return product.availableQuantity;
   }
-});
+}

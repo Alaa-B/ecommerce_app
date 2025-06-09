@@ -216,7 +216,7 @@ class _ProductStreamByIdProviderElement
 }
 
 String _$productsListSearchHash() =>
-    r'a591b5a300ed4eb6971c47cddc2abcc5d40a9150';
+    r'd04141457df8a3af6895006b99dfb16054b9416b';
 
 /// See also [productsListSearch].
 @ProviderFor(productsListSearch)

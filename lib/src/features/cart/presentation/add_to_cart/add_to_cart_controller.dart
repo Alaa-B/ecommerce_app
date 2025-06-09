@@ -1,31 +1,40 @@
 import 'package:ecommerce_app/src/features/cart/application/cart_services.dart';
 import 'package:ecommerce_app/src/features/cart/domain/item.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class AddToCartController extends StateNotifier<AsyncValue<int>> {
-  AddToCartController({required this.cartServices}) : super(const AsyncData(1));
+part 'add_to_cart_controller.g.dart';
 
-  final CartServices cartServices;
-
-  void updateQuantity(int quantity) {
-    state = AsyncData(quantity);
-  }
+@riverpod
+class AddToCartController extends _$AddToCartController {
+  @override
+  FutureOr<void> build() {}
 
   Future<void> addToCart(ProductID productId) async {
-    final item = Item(productId: productId, quantity: state.value!);
-    state = const AsyncLoading<int>().copyWithPrevious(state);
-    final value = await AsyncValue.guard(() => cartServices.addItem(item));
-    if (value.hasError) {
-      state = AsyncError(value.error!, StackTrace.current);
+    final item = Item(
+        productId: productId,
+        quantity: ref.read(itemQuantityControllerProvider));
+    state = const AsyncLoading<void>();
+    state = await AsyncValue.guard(
+        () => ref.watch(cartServicesProvider).addItem(item));
+
+    if (!state.hasError) {
+      ref.read(itemQuantityControllerProvider.notifier).updateQuantity(1);
     } else {
-      state = AsyncData(1);
+      state = AsyncError(state.error!, StackTrace.current);
+      state = AsyncData(null);
     }
   }
 }
 
-final addToCartControllerProvider =
-    StateNotifierProvider.autoDispose<AddToCartController, AsyncValue<int>>(
-        (ref) {
-  return AddToCartController(cartServices: ref.watch(cartServicesProvider));
-});
+@riverpod
+class ItemQuantityController extends _$ItemQuantityController {
+  @override
+  int build() {
+    return 1;
+  }
+
+  void updateQuantity(int quantity) {
+    state = quantity;
+  }
+}

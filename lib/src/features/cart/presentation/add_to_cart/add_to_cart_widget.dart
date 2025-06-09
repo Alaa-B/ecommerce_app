@@ -17,13 +17,14 @@ class AddToCartWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<AsyncValue<int>>(
+    ref.listen<AsyncValue>(
       addToCartControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
     final availableQuantity =
         ref.watch(availableItemsQuantityProvider(product));
     final state = ref.watch(addToCartControllerProvider);
+    final quantity = ref.watch(itemQuantityControllerProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -33,12 +34,12 @@ class AddToCartWidget extends ConsumerWidget {
           children: [
             Text('Quantity:'.hardcoded),
             ItemQuantitySelector(
-              quantity: state.hasError ? 1 : state.value!,
+              quantity: quantity,
               maxQuantity: min(availableQuantity, 10),
               onChanged: state.isLoading
                   ? null
                   : (quantity) => ref
-                      .read(addToCartControllerProvider.notifier)
+                      .read(itemQuantityControllerProvider.notifier)
                       .updateQuantity(quantity),
             ),
           ],

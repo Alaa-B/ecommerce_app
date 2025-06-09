@@ -7,7 +7,7 @@ part of 'fake_products_repository.dart';
 // **************************************************************************
 
 String _$productsRepositoryHash() =>
-    r'e8cab1bcd218fb069cc327d69b7b13b97d9240e7';
+    r'840b0522121b25eb610ee6b39bc421fc5c3f4659';
 
 /// See also [productsRepository].
 @ProviderFor(productsRepository)
@@ -216,7 +216,7 @@ class _ProductStreamByIdProviderElement
 }
 
 String _$productsListSearchHash() =>
-    r'd04141457df8a3af6895006b99dfb16054b9416b';
+    r'a591b5a300ed4eb6971c47cddc2abcc5d40a9150';
 
 /// See also [productsListSearch].
 @ProviderFor(productsListSearch)

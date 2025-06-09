@@ -1,17 +1,21 @@
+import 'dart:async';
+
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/features/reviews/application/review_service.dart';
 import 'package:ecommerce_app/src/features/reviews/domain/review.dart';
 import 'package:ecommerce_app/src/utils/current_date_provider.dart';
-import 'package:riverpod/riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'leave_review_controller.g.dart';
 
-class LeaveReviewController extends StateNotifier<AsyncValue<void>> {
-  LeaveReviewController({
-    required this.reviewService,
-    required this.buildDateTime,
-  }) : super(AsyncData(null));
-
-  final ReviewService reviewService;
-  final DateTime Function() buildDateTime;
+@riverpod
+class LeaveReviewController extends _$LeaveReviewController {
+  bool mounted = true;
+  @override
+  FutureOr build() {
+    ref.onDispose(() {
+      mounted = false;
+    });
+  }
 
   Future<void> submitReview({
     Review? previousReview,
@@ -20,19 +24,20 @@ class LeaveReviewController extends StateNotifier<AsyncValue<void>> {
     required double rating,
     required void Function() onSuccess,
   }) async {
+    final currentDate = ref.read(currentDateProvider);
     state = const AsyncLoading();
     final review = Review(
       score: rating,
       comment: comment,
-      date: buildDateTime(),
+      date: currentDate(),
     );
     //* Not storing the same review if it's equal to the previous one
     //* For Optimization
     if (previousReview == null ||
         review.score != previousReview.score ||
         review.comment != previousReview.comment) {
-      final newState = await AsyncValue.guard(
-          () => reviewService.submitReview(productId, review));
+      final newState = await AsyncValue.guard(() =>
+          ref.watch(reviewServiceProvider).submitReview(productId, review));
       if (mounted) {
         state = newState;
         if (state.hasError == false) {
@@ -44,12 +49,3 @@ class LeaveReviewController extends StateNotifier<AsyncValue<void>> {
     }
   }
 }
-
-final leaveReviewControllerProvider =
-    StateNotifierProvider.autoDispose<LeaveReviewController, AsyncValue<void>>(
-        (ref) {
-  final reviewService = ref.watch(reviewServiceProvider);
-  final buildDateTime = ref.watch(currentDateProvider);
-  return LeaveReviewController(
-      reviewService: reviewService, buildDateTime: buildDateTime);
-});

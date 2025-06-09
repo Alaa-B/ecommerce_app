@@ -48,33 +48,23 @@ void main() {
     });
 
     test('signOut success', () async {
-      // setup
       final authRepository = MockAuthRepository();
-      // stub method to return success
       when(authRepository.signOut).thenAnswer((_) => Future.value());
-      // create the ProviderContainer with the mock auth repository
       final container = makeProviderContainer(authRepository);
-      // create a listener
       final listener = Listener<AsyncValue<void>>();
-      // listen to the provider and call [listener] whenever its value changes
       container.listen(
         accountScreenControllerProvider,
         listener.call,
         fireImmediately: true,
       );
-      // sto
       const data = AsyncData<void>(null);
-      // verify initial value from build method
       verify(() => listener(null, data));
-      // run
       final controller =
           container.read(accountScreenControllerProvider.notifier);
       await controller.signOut();
-      // verify
       verifyInOrder([
         // set loading state
         // * use a matcher since AsyncLoading != AsyncLoading with data
-        // * https://codewithandrea.com/articles/unit-test-async-notifier-riverpod/
         () => listener(data, any(that: isA<AsyncLoading>())),
         // data when complete
         () => listener(any(that: isA<AsyncLoading>()), data),
@@ -85,21 +75,16 @@ void main() {
     test('signOut failure', () async {
       // setup
       final authRepository = MockAuthRepository();
-      // stub method to return success
       final exception = Exception('Connection failed');
       when(authRepository.signOut).thenThrow(exception);
-      // create the ProviderContainer with the mock auth repository
       final container = makeProviderContainer(authRepository);
-      // create a listener
       final listener = Listener<AsyncValue<void>>();
-      // listen to the provider and call [listener] whenever its value changes
       container.listen(
         accountScreenControllerProvider,
         listener.call,
         fireImmediately: true,
       );
       const data = AsyncData<void>(null);
-      // verify initial value from build method
       verify(() => listener(null, data));
       // run
       final controller =

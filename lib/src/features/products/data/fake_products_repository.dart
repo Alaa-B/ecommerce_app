@@ -36,7 +36,6 @@ class FakeProductsRepository {
   }
 
   Future<List<Product>> fetchProductsList() async {
-    await delayed(addDelay);
     return Future.value(_products.value);
   }
 
@@ -74,7 +73,7 @@ class FakeProductsRepository {
 
 @riverpod
 FakeProductsRepository productsRepository(Ref ref) {
-  return FakeProductsRepository();
+  return FakeProductsRepository(addDelay: false);
 }
 
 @riverpod
@@ -97,5 +96,11 @@ Stream<Product?> productStreamById(Ref ref, ProductID id) {
 
 @riverpod
 Future<List<Product>> productsListSearch(Ref ref, String query) {
+  final link = ref.keepAlive();
+  // * keep previous search results in memory for 60 seconds
+  final timer = Timer(const Duration(seconds: 60), () {
+    link.close();
+  });
+  ref.onDispose(() => timer.cancel());
   return ref.watch(productsRepositoryProvider).searchProductList(query);
 }

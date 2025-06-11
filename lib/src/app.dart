@@ -13,7 +13,7 @@ class MyApp extends ConsumerWidget {
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
-      onGenerateTitle: (BuildContext context) => 'My Shop'.hardcoded,
+      onGenerateTitle: (BuildContext context) => 'FeastNow'.hardcoded,
       theme: ThemeData(
         // * Use this to toggle Material 3 (defaults to true since Flutter 3.16)
         useMaterial3: true,

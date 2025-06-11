@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 /// Custom image widget that loads an image as a static asset.
 class CustomImage extends StatelessWidget {
@@ -7,7 +8,18 @@ class CustomImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Use [CachedNetworkImage] if the url points to a remote resource
-    return Image.asset(imageUrl);
+    return Flexible(
+      flex: 1,
+      fit: FlexFit.tight,
+      child: CachedNetworkImage(
+        width: double.infinity,
+        imageUrl: imageUrl,
+        fit: BoxFit.fitHeight,
+        placeholder: (context, url) =>
+            Center(child: const CircularProgressIndicator.adaptive()),
+        errorWidget: (context, url, error) =>
+            const Icon(Icons.error_outline_rounded),
+      ),
+    );
   }
 }

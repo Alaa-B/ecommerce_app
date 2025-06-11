@@ -10,7 +10,6 @@ class AsyncValueWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: add shimmering effect 'shimmer package'
     return value.when(
       data: data,
       error: (error, st) => Center(child: ErrorMessageWidget(error.toString())),

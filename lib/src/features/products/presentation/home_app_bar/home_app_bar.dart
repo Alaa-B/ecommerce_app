@@ -21,17 +21,10 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authStateChangesStreamProvider).value;
-    // * This widget is responsive.
-    // * On large screen sizes, it shows all the actions in the app bar.
-    // * On small screen sizes, it shows only the shopping cart icon and a
-    // * [MoreMenuButton].
-    // ! MediaQuery is used on the assumption that the widget takes up the full
-    // ! width of the screen. If that's not the case, LayoutBuilder should be
-    // ! used instead.
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth < Breakpoint.tablet) {
       return AppBar(
-        title: Text('My Shop'.hardcoded),
+        title: Text('FeastNow'.hardcoded),
         actions: [
           ShoppingCartIcon(),
           MoreMenuButton(user: user),
@@ -39,7 +32,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
       );
     } else {
       return AppBar(
-        title: Text('My Shop'.hardcoded),
+        title: Text('FeastNow'.hardcoded),
         actions: [
           const ShoppingCartIcon(),
           // ignore: unnecessary_null_comparison

@@ -1,5 +1,5 @@
 name: ecommerce_app
-description: Flutter eCommerce app (official project for the Flutter Foundations course)
+description: Flutter Food app
 
 # Prevent accidental publishing to pub.dev.
 publish_to: "none"
@@ -29,6 +29,7 @@ dependencies:
   sembast_web: ^2.4.1
   path_provider: 2.1.5
   intl: ^0.20.2
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_lints: 5.0.0

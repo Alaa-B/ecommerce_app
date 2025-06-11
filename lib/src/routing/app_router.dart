@@ -1,3 +1,5 @@
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import '../features/authentication/data/fake_auth_repository.dart';
 import '../features/authentication/presentation/account/account_screen.dart';
 import '../features/authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
@@ -13,6 +15,7 @@ import 'not_found_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+part 'app_router.g.dart';
 
 enum AppRoutes {
   home,
@@ -25,7 +28,8 @@ enum AppRoutes {
   checkout,
 }
 
-final appRouterProvider = Provider.autoDispose<GoRouter>((ref) {
+@riverpod
+GoRouter appRouter(Ref ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return GoRouter(
     initialLocation: '/',
@@ -123,4 +127,4 @@ final appRouterProvider = Provider.autoDispose<GoRouter>((ref) {
     ],
     errorBuilder: (context, state) => const NotFoundScreen(),
   );
-});
+}

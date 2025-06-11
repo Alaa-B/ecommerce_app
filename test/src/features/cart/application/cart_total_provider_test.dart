@@ -37,7 +37,7 @@ void main() {
       await container.read(cartServicesStreamProvider.future);
       await container.read(productsListStreamProvider.future);
       final total = container.read(cartTotalPriceProvider);
-      expect(total, 15);
+      expect(total, 12.99);
     });
 
     test('one product with quantity = 5', () async {
@@ -48,7 +48,7 @@ void main() {
       await container.read(cartServicesStreamProvider.future);
       await container.read(productsListStreamProvider.future);
       final total = container.read(cartTotalPriceProvider);
-      expect(total, 75);
+      expect(total, 64.95);
     });
 
     test('two products', () async {
@@ -59,7 +59,7 @@ void main() {
       await container.read(cartServicesStreamProvider.future);
       await container.read(productsListStreamProvider.future);
       final total = container.read(cartTotalPriceProvider);
-      expect(total, 69); // 15 * 2 + 13 * 3
+      expect(total, 69.48);
     });
 
     test('product not found', () async {

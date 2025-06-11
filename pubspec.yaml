@@ -69,3 +69,4 @@ flutter:
   assets:
     # Add all product images
     - assets/products/
+    - assets/menu/

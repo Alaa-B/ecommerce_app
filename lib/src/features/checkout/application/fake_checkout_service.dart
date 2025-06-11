@@ -1,16 +1,29 @@
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
-import 'package:ecommerce_app/src/features/cart/data/remote/remote_cart_repository.dart';
+import 'package:ecommerce_app/src/features/cart/data/remote/fake_remote_cart_repository.dart';
 import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
 import 'package:ecommerce_app/src/features/orders/data/fake_orders_repository.dart';
 import 'package:ecommerce_app/src/features/orders/domain/order.dart';
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
-import 'package:ecommerce_app/src/utils/current_date_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'fake_checkout_service.g.dart';
 
 /// A fake checkout service that doesn't process real payments.
 class FakeCheckoutService {
-  FakeCheckoutService(this.ref);
-  final Ref ref;
+  FakeCheckoutService({
+    required this.authRepository,
+    required this.remoteCartRepository,
+    required this.ordersRepository,
+    required this.productsRepository,
+    required this.currentDate,
+  });
+
+  final FakeAuthRepository authRepository;
+  final FakeRemoteCartRepository remoteCartRepository;
+  final FakeOrdersRepository ordersRepository;
+  final FakeProductsRepository productsRepository;
+  final DateTime Function() currentDate;
 
   /// Temporary client-side logic for placing an order.
   /// Part of this logic should run on the server, so that we can:
@@ -19,10 +32,6 @@ class FakeCheckoutService {
   /// - process the payment and fulfill the order
   /// The server-side logic will be covered in course #2
   Future<void> placeOrder() async {
-    final authRepository = ref.read(authRepositoryProvider);
-    final remoteCartRepository = ref.read(remoteCartRepositoryProvider);
-    final ordersRepository = ref.read(ordersRepositoryProvider);
-    final currentDate = ref.read(currentDateProvider);
     // * Assertion operator is ok here since this method is only called from
     // * a place where the user is signed in
     final uid = authRepository.currentUser!.uid;
@@ -59,7 +68,6 @@ class FakeCheckoutService {
     if (cart.items.isEmpty) {
       return 0.0;
     }
-    final productsRepository = ref.read(productsRepositoryProvider);
     return cart.items.entries
         // first extract quantity * price for each item
         .map((entry) =>
@@ -70,6 +78,13 @@ class FakeCheckoutService {
   }
 }
 
-final checkoutServiceProvider = Provider<FakeCheckoutService>((ref) {
-  return FakeCheckoutService(ref);
-});
+@riverpod
+FakeCheckoutService checkoutService(Ref ref) {
+  return FakeCheckoutService(
+    authRepository: ref.watch(authRepositoryProvider),
+    remoteCartRepository: ref.watch(remoteCartRepositoryProvider),
+    ordersRepository: ref.watch(ordersRepositoryProvider),
+    productsRepository: ref.watch(productsRepositoryProvider),
+    currentDate: () => DateTime.now(),
+  );
+}

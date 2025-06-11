@@ -5,36 +5,41 @@ import 'package:ecommerce_app/src/features/reviews/data/fake_review_repository.d
 import 'package:ecommerce_app/src/features/reviews/domain/review.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'fake_review_service.g.dart';
 
-class ReviewService {
-  final Ref ref;
+class FakeReviewService {
+  FakeReviewService({
+    required this.fakeProductsRepository,
+    required this.authRepository,
+    required this.reviewsRepository,
+  });
+  final FakeProductsRepository fakeProductsRepository;
+  final FakeAuthRepository authRepository;
+  final FakeReviewRepository reviewsRepository;
 
-  ReviewService({required this.ref});
   Future<void> submitReview(
     ProductID productId,
     Review review,
   ) async {
-    final user = ref.read(authRepositoryProvider).currentUser;
+    final user = authRepository.currentUser;
     assert(user != null);
     if (user == null) {
       throw AssertionError(
           'Can\'t submit a review if the user is not signed in'.hardcoded);
     }
-    await ref.read(fakeReviewRepositoryProvider).setReview(
-          productId: productId,
-          uId: user.uid,
-          review: review,
-        );
+    await reviewsRepository.setReview(
+      productId: productId,
+      uId: user.uid,
+      review: review,
+    );
     _updateAvgReviewsRating(productId);
   }
 
   Future<void> _updateAvgReviewsRating(ProductID productId) async {
-    final reviews = await ref
-        .read(fakeReviewRepositoryProvider)
-        .fetchProductReviews(productId);
+    final reviews = await reviewsRepository.fetchProductReviews(productId);
     final avgRating = _avgReviewRating(reviews);
-    final product =
-        ref.read(productsRepositoryProvider).getProductById(productId);
+    final product = fakeProductsRepository.getProductById(productId);
     if (product == null) {
       throw StateError("this product isn't found $productId".hardcoded);
     }
@@ -42,7 +47,7 @@ class ReviewService {
       avgRating: avgRating,
       numRatings: reviews.length,
     );
-    await ref.read(productsRepositoryProvider).setProduct(updatedProduct);
+    await fakeProductsRepository.setProduct(updatedProduct);
   }
 
   double _avgReviewRating(List<Review> reviews) {
@@ -59,12 +64,17 @@ class ReviewService {
   }
 }
 
-final reviewServiceProvider = Provider<ReviewService>((ref) {
-  return ReviewService(ref: ref);
-});
+@riverpod
+FakeReviewService reviewsService(Ref ref) {
+  return FakeReviewService(
+    fakeProductsRepository: ref.watch(productsRepositoryProvider),
+    authRepository: ref.watch(authRepositoryProvider),
+    reviewsRepository: ref.watch(fakeReviewRepositoryProvider),
+  );
+}
 
-final watchUserReviewsProvider =
-    StreamProvider.autoDispose.family<Review?, ProductID>((ref, productId) {
+@riverpod
+Stream<Review?> watchUserReviews(Ref ref, ProductID productId) {
   final user = ref.watch(authStateChangesStreamProvider).value;
   if (user != null) {
     return ref
@@ -73,10 +83,10 @@ final watchUserReviewsProvider =
   } else {
     return Stream.value(null);
   }
-});
+}
 
-final fetchUserReviewsProvider =
-    FutureProvider.autoDispose.family<Review?, ProductID>((ref, productId) {
+@riverpod
+Future<Review?> fetchUserReviews(Ref ref, ProductID productId) {
   final user = ref.watch(authStateChangesStreamProvider).value;
   if (user != null) {
     return ref
@@ -85,4 +95,4 @@ final fetchUserReviewsProvider =
   } else {
     return Future.value(null);
   }
-});
+}

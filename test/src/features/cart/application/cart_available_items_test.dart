@@ -18,13 +18,13 @@ void main() {
       final container = makeProviderContainer(cart: const Stream.empty());
       final availableQuantity =
           container.read(availableItemsQuantityProvider(kTestProducts[0]));
-      expect(availableQuantity, 5);
+      expect(availableQuantity, 30);
     });
     test('empty cart', () async {
       final container = makeProviderContainer(cart: Stream.value(Cart()));
       final availableQuantity =
           container.read(availableItemsQuantityProvider(kTestProducts[0]));
-      expect(availableQuantity, 5);
+      expect(availableQuantity, 30);
     });
     test('product with only 1 item available', () async {
       final container =
@@ -32,7 +32,7 @@ void main() {
       await container.read(cartServicesStreamProvider.future);
       final availableQuantity =
           container.read(availableItemsQuantityProvider(kTestProducts[0]));
-      expect(availableQuantity, 4);
+      expect(availableQuantity, 29);
     });
     test('product with 10 item available', () async {
       final container =
@@ -40,7 +40,7 @@ void main() {
       await container.read(cartServicesStreamProvider.future);
       final availableQuantity =
           container.read(availableItemsQuantityProvider(kTestProducts[0]));
-      expect(availableQuantity, 0);
+      expect(availableQuantity, 20);
     });
   });
 }

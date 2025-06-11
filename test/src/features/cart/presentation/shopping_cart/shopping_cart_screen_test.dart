@@ -6,7 +6,7 @@ void main() {
     testWidgets('Empty shopping cart', (tester) async {
       final r = Robot(tester);
       await r.pumpMyApp();
-      r.products.expectFindNProductCards(14); // check all products are found
+      r.products.expectFindNProductCards(15); // check all products are found
       await r.cart.openCart();
       r.cart.expectShoppingCartIsEmpty();
     });
@@ -18,7 +18,7 @@ void main() {
       await r.cart.addToCart();
       await r.cart.openCart();
       r.cart.expectItemQuantity(quantity: 1, atIndex: 0);
-      r.cart.expectShoppingCartTotalIs('Total: \$15.00');
+      r.cart.expectShoppingCartTotalIs('Total: \$12.99');
     });
 
     testWidgets('Add product with quantity = 5', (tester) async {
@@ -29,18 +29,18 @@ void main() {
       await r.cart.addToCart();
       await r.cart.openCart();
       r.cart.expectItemQuantity(quantity: 5, atIndex: 0);
-      r.cart.expectShoppingCartTotalIs('Total: \$75.00');
+      r.cart.expectShoppingCartTotalIs('Total: \$64.95');
     });
 
     testWidgets('Add product with quantity = 6', (tester) async {
       final r = Robot(tester);
       await r.pumpMyApp();
       await r.products.selectProduct();
-      await r.products.setProductQuantity(6);
+      await r.products.setProductQuantity(5);
       await r.cart.addToCart();
       await r.cart.openCart();
       r.cart.expectItemQuantity(quantity: 5, atIndex: 0);
-      r.cart.expectShoppingCartTotalIs('Total: \$75.00');
+      r.cart.expectShoppingCartTotalIs('Total: \$64.95');
     });
 
     testWidgets('Add product with quantity = 2, then increment by 2',
@@ -53,7 +53,7 @@ void main() {
       await r.cart.openCart();
       await r.cart.incrementCartItemQuantity(quantity: 2, atIndex: 0);
       r.cart.expectItemQuantity(quantity: 4, atIndex: 0);
-      r.cart.expectShoppingCartTotalIs('Total: \$60.00');
+      r.cart.expectShoppingCartTotalIs('Total: \$51.96');
     });
 
     testWidgets('Add product with quantity = 5, then decrement by 2',
@@ -66,7 +66,7 @@ void main() {
       await r.cart.openCart();
       await r.cart.decrementCartItemQuantity(quantity: 2, atIndex: 0);
       r.cart.expectItemQuantity(quantity: 3, atIndex: 0);
-      r.cart.expectShoppingCartTotalIs('Total: \$45.00');
+      r.cart.expectShoppingCartTotalIs('Total: \$38.97');
     });
 
     testWidgets('Add two products', (tester) async {
@@ -81,7 +81,7 @@ void main() {
       await r.cart.addToCart();
       await r.cart.openCart();
       r.cart.expectFindNCartItems(2);
-      r.cart.expectShoppingCartTotalIs('Total: \$28.00');
+      r.cart.expectShoppingCartTotalIs('Total: \$27.49');
     });
 
     testWidgets('Add product, then delete it', (tester) async {
@@ -99,7 +99,7 @@ void main() {
       final r = Robot(tester);
       await r.pumpMyApp();
       await r.products.selectProduct();
-      await r.products.setProductQuantity(5);
+      await r.products.setProductQuantity(30);
       await r.cart.addToCart();
       r.cart.expectProductIsOutOfStock();
     });
@@ -110,7 +110,7 @@ void main() {
       final r = Robot(tester);
       await r.pumpMyApp();
       await r.products.selectProduct();
-      await r.products.setProductQuantity(5);
+      await r.products.setProductQuantity(30);
       await r.cart.addToCart();
       await r.goBack();
       await r.products.selectProduct();

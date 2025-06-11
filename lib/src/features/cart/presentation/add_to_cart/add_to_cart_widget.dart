@@ -35,7 +35,7 @@ class AddToCartWidget extends ConsumerWidget {
             Text('Quantity:'.hardcoded),
             ItemQuantitySelector(
               quantity: quantity,
-              maxQuantity: min(availableQuantity, 10),
+              maxQuantity: min(availableQuantity, 50),
               onChanged: state.isLoading
                   ? null
                   : (quantity) => ref

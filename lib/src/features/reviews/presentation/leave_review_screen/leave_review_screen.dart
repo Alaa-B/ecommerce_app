@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
-import 'package:ecommerce_app/src/features/reviews/application/review_service.dart';
+import 'package:ecommerce_app/src/features/reviews/application/fake_review_service.dart';
 import 'package:ecommerce_app/src/features/reviews/presentation/leave_review_screen/leave_review_controller.dart';
 import 'package:ecommerce_app/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';

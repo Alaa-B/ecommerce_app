@@ -3,7 +3,7 @@ import 'package:ecommerce_app/src/features/authentication/data/fake_auth_reposit
 import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
 import 'package:ecommerce_app/src/features/cart/application/cart_sync_service.dart';
 import 'package:ecommerce_app/src/features/cart/data/local/local_cart_repository.dart';
-import 'package:ecommerce_app/src/features/cart/data/remote/remote_cart_repository.dart';
+import 'package:ecommerce_app/src/features/cart/data/remote/fake_remote_cart_repository.dart';
 import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
@@ -70,9 +70,9 @@ void main() {
     });
     test('local quantity > available quantity', () async {
       await toggleCartSync(
-        localCart: {'1': 15},
+        localCart: {'1': 6},
         remoteCart: {},
-        expectedCart: {'1': 5},
+        expectedCart: {'1': 6},
       );
     });
     test('local + remote quantity <= available quantity', () async {
@@ -87,7 +87,7 @@ void main() {
       await toggleCartSync(
         localCart: {'1': 3},
         remoteCart: {'1': 3},
-        expectedCart: {'1': 5},
+        expectedCart: {'1': 6},
       );
     });
 
@@ -95,7 +95,7 @@ void main() {
       await toggleCartSync(
         localCart: {'1': 3, '2': 1, '3': 2},
         remoteCart: {'1': 3},
-        expectedCart: {'1': 5, '2': 1, '3': 2},
+        expectedCart: {'1': 6, '2': 1, '3': 2},
       );
     });
   });

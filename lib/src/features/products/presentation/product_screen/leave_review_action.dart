@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/src/features/orders/application/user_orders_provider.dart';
-import 'package:ecommerce_app/src/features/reviews/application/review_service.dart';
+import 'package:ecommerce_app/src/features/reviews/application/fake_review_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

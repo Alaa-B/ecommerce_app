@@ -15,6 +15,8 @@ abstract class ProductsRepository {
 
 @riverpod
 ProductsRepository productsRepository(Ref ref) {
+  // TODO: create and return repository
+
   throw UnimplementedError();
 }
 

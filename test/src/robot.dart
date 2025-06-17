@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/src/app.dart';
 import 'package:ecommerce_app/src/app_bootstrap_fakes.dart';
 import 'package:ecommerce_app/src/constants/test_products.dart';
+import 'package:ecommerce_app/src/features/cart/application/cart_sync_service.dart';
 import 'package:ecommerce_app/src/features/products/presentation/home_app_bar/more_menu_button.dart';
 import 'package:ecommerce_app/src/features/products/presentation/products_list/product_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,7 +30,8 @@ class Robot {
   final OrdersRobot order;
 
   Future<void> pumpMyApp() async {
-    final container = await createFakesProviderContainer();
+    final container = await createFakesProviderContainer(addDelay: false);
+    container.read(cartSyncServiceProvider);
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,

@@ -5,6 +5,7 @@ import 'package:ecommerce_app/src/features/checkout/application/checkout_service
 import 'package:ecommerce_app/src/features/orders/data/fake_orders_repository.dart';
 import 'package:ecommerce_app/src/features/orders/domain/order.dart';
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
+import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 
 /// A fake checkout service that doesn't process real payments.
 class FakeCheckoutService implements CheckoutServices {
@@ -37,8 +38,6 @@ class FakeCheckoutService implements CheckoutServices {
     final cart = await remoteCartRepository.fetchCart(uid);
     if (cart.items.isNotEmpty) {
       final total = _totalPrice(cart);
-      // * If we want to make this code more testable, a DateTime builder
-      // * should be injected as a dependency
       final orderDate = currentDate();
       // * The orderId is a unique string that could be generated with the UUID
       // * package. Since this is a fake service, we just derive it from the date.
@@ -48,6 +47,7 @@ class FakeCheckoutService implements CheckoutServices {
         id: orderId,
         userId: uid,
         items: cart.items,
+        productIds: cart.items.keys.toList(),
         orderStatus: OrderStatus.confirmed,
         orderDate: orderDate,
         total: total,
@@ -57,7 +57,7 @@ class FakeCheckoutService implements CheckoutServices {
       // 4. Empty the cart
       await remoteCartRepository.setCart(uid, const Cart());
     } else {
-      throw StateError('Can\'t place an order if the cart is empty');
+      throw StateError('Can\'t place an order if the cart is empty'.hardcoded);
     }
   }
 

@@ -13,6 +13,7 @@ abstract class AuthRepository {
 
 @Riverpod(keepAlive: true)
 AuthRepository authRepository(Ref ref) {
+  // TODO: create and return repository
   throw UnimplementedError();
 }
 

@@ -8,7 +8,16 @@ import '../../auth_robot.dart';
 void main() {
   testWidgets('cancel logout', (tester) async {
     final r = AuthRobot(tester);
-    await r.pumpAccountScreen();
+    final authRepository = MockAuthRepository();
+    when(authRepository.signOut).thenAnswer(
+      (_) => Future.value(),
+    );
+    when(authRepository.authStateChanges).thenAnswer(
+      (_) => Stream.value(
+        const AppUser(uid: '123', email: 'test@test.com'),
+      ),
+    );
+    await r.pumpAccountScreen(fakeAuthRepository: authRepository);
     r.expectLogoutButton();
     await r.tapLogoutButton();
     r.expectLogOutDialog();
@@ -17,7 +26,16 @@ void main() {
   });
   testWidgets('confirm logout,success', (tester) async {
     final r = AuthRobot(tester);
-    await r.pumpAccountScreen();
+    final authRepository = MockAuthRepository();
+    when(authRepository.signOut).thenAnswer(
+      (_) => Future.value(),
+    );
+    when(authRepository.authStateChanges).thenAnswer(
+      (_) => Stream.value(
+        const AppUser(uid: '123', email: 'test@test.com'),
+      ),
+    );
+    await r.pumpAccountScreen(fakeAuthRepository: authRepository);
     await r.tapLogoutButton();
     r.expectLogOutDialog();
     await r.tapLogoutDialogButton();

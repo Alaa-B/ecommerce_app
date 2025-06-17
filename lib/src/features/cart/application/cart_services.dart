@@ -1,16 +1,15 @@
 import 'dart:math';
-
-import 'package:ecommerce_app/src/features/cart/data/remote/fake_remote_cart_repository.dart';
-import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
+import 'package:ecommerce_app/src/features/authentication/data/auth_repository.dart';
+import 'package:ecommerce_app/src/features/cart/data/remote/remote_cart_repository.dart';
+import 'package:ecommerce_app/src/features/products/data/products_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../authentication/data/fake_auth_repository.dart';
 import '../data/local/local_cart_repository.dart';
 import '../domain/cart.dart';
 import '../domain/item.dart';
 import '../domain/mutable_cart.dart';
 import '../../products/domain/product.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'cart_services.g.dart';
 

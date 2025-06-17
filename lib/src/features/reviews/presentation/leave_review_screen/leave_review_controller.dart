@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
-import 'package:ecommerce_app/src/features/reviews/application/fake_review_service.dart';
+import 'package:ecommerce_app/src/features/reviews/application/review_services.dart';
 import 'package:ecommerce_app/src/features/reviews/domain/review.dart';
 import 'package:ecommerce_app/src/utils/current_date_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

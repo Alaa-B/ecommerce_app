@@ -1,5 +1,6 @@
+import 'package:ecommerce_app/src/features/products/data/products_repository.dart';
+
 import '../../../../common_widgets/async_value_widget.dart';
-import '../../../products/data/fake_products_repository.dart';
 import '../../../products/domain/product.dart';
 import '../../../../localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';

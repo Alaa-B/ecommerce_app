@@ -18,7 +18,7 @@ import 'package:ecommerce_app/src/exceptions/async_error_logger.dart';
 import 'package:ecommerce_app/src/features/cart/data/local/fake_local_cart_repository.dart';
 import 'package:ecommerce_app/src/features/cart/data/local/local_cart_repository.dart';
 
-Future<ProviderContainer> createFakesProviderContainer(
+Future<ProviderContainer> createFirebaseProviderContainer(
     {bool addDelay = true}) async {
   final authRepository = FakeAuthRepository(delay: addDelay);
   final productsRepository = FakeProductsRepository(addDelay: addDelay);

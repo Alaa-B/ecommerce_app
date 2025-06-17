@@ -1,28 +1,28 @@
 import 'dart:async';
+import 'package:ecommerce_app/src/features/products/data/products_repository.dart';
 import 'package:ecommerce_app/src/utils/in_memory_store.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../constants/test_products.dart';
 import '../domain/product.dart';
 import '../../../utils/delay.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-part 'fake_products_repository.g.dart';
-
-class FakeProductsRepository {
+class FakeProductsRepository implements ProductsRepository {
   FakeProductsRepository({this.addDelay = true});
 
   final _products = InMemoryStore<List<Product>>(List.from(kTestProducts));
   late bool addDelay;
 
+  @override
   List<Product> getProductsList() {
     return _products.value;
   }
 
+  @override
   Product? getProductById(String id) {
     return _getProductById(_products.value, id);
   }
 
+  @override
   Future<List<Product>> searchProductList(String query) async {
     final products = await fetchProductsList();
     final lowerCaseQuery = query.toLowerCase();
@@ -35,14 +35,17 @@ class FakeProductsRepository {
     }).toList();
   }
 
+  @override
   Future<List<Product>> fetchProductsList() async {
     return Future.value(_products.value);
   }
 
+  @override
   Stream<List<Product>> watchProductsList() {
     return _products.stream;
   }
 
+  @override
   Stream<Product?> watchProductById(String id) {
     return watchProductsList().map(
       (product) => _getProductById(product, id),
@@ -57,6 +60,7 @@ class FakeProductsRepository {
     }
   }
 
+  @override
   Future<void> setProduct(Product product) async {
     await delayed(addDelay);
     final products = _products.value;
@@ -69,38 +73,4 @@ class FakeProductsRepository {
     }
     _products.value = products;
   }
-}
-
-@riverpod
-FakeProductsRepository productsRepository(Ref ref) {
-  return FakeProductsRepository(addDelay: false);
-}
-
-@riverpod
-Stream<List<Product>> productsListStream(Ref ref) {
-  final repository = ref.watch(productsRepositoryProvider);
-  return repository.watchProductsList();
-}
-
-@riverpod
-Future<List<Product>> productsListFuture(Ref ref) {
-  final repository = ref.watch(productsRepositoryProvider);
-  return repository.fetchProductsList();
-}
-
-@riverpod
-Stream<Product?> productStreamById(Ref ref, ProductID id) {
-  final productsRepository = ref.watch(productsRepositoryProvider);
-  return productsRepository.watchProductById(id);
-}
-
-@riverpod
-Future<List<Product>> productsListSearch(Ref ref, String query) {
-  // final link = ref.keepAlive();
-  // // * keep previous search results in memory for 60 seconds
-  // final timer = Timer(const Duration(seconds: 60), () {
-  //   link.close();
-  // });
-  // ref.onDispose(() => timer.cancel());
-  return ref.watch(productsRepositoryProvider).searchProductList(query);
 }

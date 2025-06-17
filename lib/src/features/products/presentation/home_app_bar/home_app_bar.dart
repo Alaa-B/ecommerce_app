@@ -1,5 +1,6 @@
+import 'package:ecommerce_app/src/features/authentication/data/auth_repository.dart';
+
 import '../../../../constants/breakpoints.dart';
-import '../../../authentication/data/fake_auth_repository.dart';
 import 'more_menu_button.dart';
 import 'shopping_cart_icon.dart';
 import '../../../../localization/string_hardcoded.dart';

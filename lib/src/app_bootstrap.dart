@@ -12,9 +12,7 @@ class AppBootstrap {
   Widget createRootWidget({required ProviderContainer container}) {
     // * Initialize CartSyncService to start the listener
     container.read(cartSyncServiceProvider);
-
-    // * Register error handlers. For more info, see:
-    // * https://docs.flutter.dev/testing/errors
+    // * Register error handlers.
     final errorLogger = container.read(errorLoggerProvider);
     registerErrorHandlers(errorLogger);
 

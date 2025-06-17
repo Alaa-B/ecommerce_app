@@ -1,14 +1,12 @@
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
+import 'package:ecommerce_app/src/features/reviews/application/review_services.dart';
 import 'package:ecommerce_app/src/features/reviews/data/fake_review_repository.dart';
 import 'package:ecommerce_app/src/features/reviews/domain/review.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'fake_review_service.g.dart';
 
-class FakeReviewService {
+class FakeReviewService implements ReviewServices {
   FakeReviewService({
     required this.fakeProductsRepository,
     required this.authRepository,
@@ -18,6 +16,7 @@ class FakeReviewService {
   final FakeAuthRepository authRepository;
   final FakeReviewRepository reviewsRepository;
 
+  @override
   Future<void> submitReview(
     ProductID productId,
     Review review,
@@ -61,38 +60,5 @@ class FakeReviewService {
     } else {
       return 0.0;
     }
-  }
-}
-
-@riverpod
-FakeReviewService reviewsService(Ref ref) {
-  return FakeReviewService(
-    fakeProductsRepository: ref.watch(productsRepositoryProvider),
-    authRepository: ref.watch(authRepositoryProvider),
-    reviewsRepository: ref.watch(fakeReviewRepositoryProvider),
-  );
-}
-
-@riverpod
-Stream<Review?> watchUserReviews(Ref ref, ProductID productId) {
-  final user = ref.watch(authStateChangesStreamProvider).value;
-  if (user != null) {
-    return ref
-        .watch(fakeReviewRepositoryProvider)
-        .watchUserReview(productId, user.uid);
-  } else {
-    return Stream.value(null);
-  }
-}
-
-@riverpod
-Future<Review?> fetchUserReviews(Ref ref, ProductID productId) {
-  final user = ref.watch(authStateChangesStreamProvider).value;
-  if (user != null) {
-    return ref
-        .watch(fakeReviewRepositoryProvider)
-        .fetchUserReview(productId, user.uid);
-  } else {
-    return Future.value(null);
   }
 }

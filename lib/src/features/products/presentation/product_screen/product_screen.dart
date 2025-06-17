@@ -1,7 +1,7 @@
 import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
+import 'package:ecommerce_app/src/features/products/data/products_repository.dart';
 
 import '../../../cart/presentation/add_to_cart/add_to_cart_widget.dart';
-import '../../data/fake_products_repository.dart';
 import '../home_app_bar/home_app_bar.dart';
 import 'leave_review_action.dart';
 import 'product_average_rating.dart';

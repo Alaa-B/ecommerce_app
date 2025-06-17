@@ -1,6 +1,6 @@
+import 'package:ecommerce_app/src/features/authentication/data/auth_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../features/authentication/data/fake_auth_repository.dart';
 import '../features/authentication/presentation/account/account_screen.dart';
 import '../features/authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
 import '../features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
@@ -33,7 +33,7 @@ GoRouter appRouter(Ref ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return GoRouter(
     initialLocation: '/',
-    debugLogDiagnostics: false,
+    debugLogDiagnostics: true,
     redirect: (context, state) {
       final isLoggedIn = authRepository.currentUser != null;
       if (isLoggedIn) {

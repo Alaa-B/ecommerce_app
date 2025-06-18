@@ -125,3 +125,11 @@ firebase-exports
 
 # Test coverage files
 coverage/
+
+# Firebase keys
+android/app/google-services.json
+web/index.html
+web/firebase_options.dart
+lib/firebase_options.dart
+ios/Runner/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist

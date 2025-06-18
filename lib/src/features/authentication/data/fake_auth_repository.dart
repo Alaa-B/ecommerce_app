@@ -49,7 +49,10 @@ class FakeAuthRepository implements AuthRepository {
 
   void _createNewUser(String email, String password) {
     final user = FakeAppUser(
-        uid: _createUserId(email), email: email, password: password);
+      uid: _createUserId(email),
+      email: email,
+      password: password,
+    );
     _users.add(user);
     _authState.value = user;
   }

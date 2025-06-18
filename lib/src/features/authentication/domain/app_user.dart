@@ -6,12 +6,16 @@ class AppUser extends Equatable {
   const AppUser({
     required this.uid,
     required this.email,
+    this.isVerified = false,
   });
   final String uid;
-  final String email;
-
+  final String? email;
+  final bool isVerified;
+  Future<void> sendEmailVerification() async {
+    // no-op - implemented by subclasses
+  }
   @override
-  List<Object> get props => [uid];
+  List<Object> get props => [uid, isVerified];
 
   @override
   bool get stringify => true;

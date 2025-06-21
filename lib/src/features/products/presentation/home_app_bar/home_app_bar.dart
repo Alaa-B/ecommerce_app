@@ -22,13 +22,16 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authStateChangesStreamProvider).value;
+    final isAdminUser = user != null;
+
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth < Breakpoint.tablet) {
       return AppBar(
         title: Text('FeastNow'.hardcoded),
         actions: [
           ShoppingCartIcon(),
-          MoreMenuButton(user: user),
+          const ShoppingCartIcon(),
+          MoreMenuButton(user: user, isAdministrator: isAdminUser),
         ],
       );
     } else {
@@ -53,7 +56,13 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
               key: MoreMenuButton.signInKey,
               text: 'Sign In'.hardcoded,
               onPressed: () => context.goNamed(AppRoutes.signIn.name),
-            )
+            ),
+          if (isAdminUser)
+            ActionTextButton(
+              key: MoreMenuButton.adminKey,
+              text: 'Admin'.hardcoded,
+              onPressed: () => context.pushNamed(AppRoutes.admin.name),
+            ),
         ],
       );
     }

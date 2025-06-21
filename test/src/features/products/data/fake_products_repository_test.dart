@@ -6,9 +6,9 @@ void main() {
   group('Fake Products Repository', () {
     FakeProductsRepository fakeProductsRepository() =>
         FakeProductsRepository(addDelay: false);
-    test('fake auth repository return kTestProducts', () {
+    test('fake auth repository return kTestProducts', () async {
       final productsRepository = fakeProductsRepository();
-      expect(productsRepository.getProductsList(), kTestProducts);
+      expect(await productsRepository.fetchProductsList(), kTestProducts);
     });
     test('return null product for fault Id', () {
       final productsRepository = fakeProductsRepository();

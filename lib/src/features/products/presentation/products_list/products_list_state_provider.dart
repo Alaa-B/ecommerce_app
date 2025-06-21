@@ -4,9 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'products_list_state_provider.g.dart';
 
-final productsListStateProvider = StateProvider<String>((ref) {
-  return '';
-});
+@riverpod
+class ProductsListState extends _$ProductsListState {
+  @override
+  String build() {
+    return "";
+  }
+
+  void setQuery(String query) => state = query;
+}
 
 @riverpod
 Future<List<Product>> productSearchResult(Ref ref) {

@@ -7,12 +7,11 @@ part of 'products_repository.dart';
 // **************************************************************************
 
 String _$productsRepositoryHash() =>
-    r'c5e8575d0b4b3a304f5018b74eb06e96f2e79558';
+    r'6bb9aac84882ffe94981da5617a35df0343457a6';
 
 /// See also [productsRepository].
 @ProviderFor(productsRepository)
-final productsRepositoryProvider =
-    AutoDisposeProvider<ProductsRepository>.internal(
+final productsRepositoryProvider = Provider<ProductsRepository>.internal(
   productsRepository,
   name: r'productsRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -24,7 +23,7 @@ final productsRepositoryProvider =
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef ProductsRepositoryRef = AutoDisposeProviderRef<ProductsRepository>;
+typedef ProductsRepositoryRef = ProviderRef<ProductsRepository>;
 String _$productsListStreamHash() =>
     r'a2bfd3a2a6593ff665a3587a05c9e6d1e9ecc616';
 
@@ -213,6 +212,137 @@ class _ProductStreamByIdProviderElement
 
   @override
   String get id => (origin as ProductStreamByIdProvider).id;
+}
+
+String _$productFutureByIdHash() => r'35f8c41a7402394996064136ae8c578ead5836fa';
+
+/// See also [productFutureById].
+@ProviderFor(productFutureById)
+const productFutureByIdProvider = ProductFutureByIdFamily();
+
+/// See also [productFutureById].
+class ProductFutureByIdFamily extends Family<AsyncValue<Product?>> {
+  /// See also [productFutureById].
+  const ProductFutureByIdFamily();
+
+  /// See also [productFutureById].
+  ProductFutureByIdProvider call(
+    String id,
+  ) {
+    return ProductFutureByIdProvider(
+      id,
+    );
+  }
+
+  @override
+  ProductFutureByIdProvider getProviderOverride(
+    covariant ProductFutureByIdProvider provider,
+  ) {
+    return call(
+      provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'productFutureByIdProvider';
+}
+
+/// See also [productFutureById].
+class ProductFutureByIdProvider extends AutoDisposeFutureProvider<Product?> {
+  /// See also [productFutureById].
+  ProductFutureByIdProvider(
+    String id,
+  ) : this._internal(
+          (ref) => productFutureById(
+            ref as ProductFutureByIdRef,
+            id,
+          ),
+          from: productFutureByIdProvider,
+          name: r'productFutureByIdProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$productFutureByIdHash,
+          dependencies: ProductFutureByIdFamily._dependencies,
+          allTransitiveDependencies:
+              ProductFutureByIdFamily._allTransitiveDependencies,
+          id: id,
+        );
+
+  ProductFutureByIdProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.id,
+  }) : super.internal();
+
+  final String id;
+
+  @override
+  Override overrideWith(
+    FutureOr<Product?> Function(ProductFutureByIdRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ProductFutureByIdProvider._internal(
+        (ref) => create(ref as ProductFutureByIdRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        id: id,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Product?> createElement() {
+    return _ProductFutureByIdProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ProductFutureByIdProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin ProductFutureByIdRef on AutoDisposeFutureProviderRef<Product?> {
+  /// The parameter `id` of this provider.
+  String get id;
+}
+
+class _ProductFutureByIdProviderElement
+    extends AutoDisposeFutureProviderElement<Product?>
+    with ProductFutureByIdRef {
+  _ProductFutureByIdProviderElement(super.provider);
+
+  @override
+  String get id => (origin as ProductFutureByIdProvider).id;
 }
 
 String _$productsListSearchHash() =>

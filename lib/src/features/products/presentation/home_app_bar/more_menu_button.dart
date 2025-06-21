@@ -8,16 +8,19 @@ enum PopupMenuOption {
   signIn,
   orders,
   account,
+  admin,
 }
 
 class MoreMenuButton extends StatelessWidget {
-  const MoreMenuButton({super.key, this.user});
+  const MoreMenuButton({super.key, this.user, required this.isAdministrator});
   final AppUser? user;
+  final bool isAdministrator;
 
   // * Keys for testing using find.byKey()
   static const signInKey = Key('menuSignIn');
   static const ordersKey = Key('menuOrders');
   static const accountKey = Key('menuAccount');
+  static const adminKey = Key('adminUser');
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +41,12 @@ class MoreMenuButton extends StatelessWidget {
                   value: PopupMenuOption.account,
                   child: Text('Account'.hardcoded),
                 ),
+                if (isAdministrator)
+                  PopupMenuItem(
+                    key: adminKey,
+                    value: PopupMenuOption.admin,
+                    child: Text('Admin'.hardcoded),
+                  ),
               ]
             : <PopupMenuEntry<PopupMenuOption>>[
                 PopupMenuItem(
@@ -58,6 +67,9 @@ class MoreMenuButton extends StatelessWidget {
             break;
           case PopupMenuOption.account:
             context.goNamed(AppRoutes.account.name);
+            break;
+          case PopupMenuOption.admin:
+            context.goNamed(AppRoutes.admin.name);
             break;
         }
       },

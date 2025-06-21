@@ -5,16 +5,14 @@ import '../../../../common_widgets/async_value_widget.dart';
 import '../../domain/product.dart';
 import 'product_card.dart';
 import '../../../../localization/string_hardcoded.dart';
-import '../../../../routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import '../../../../constants/app_sizes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-/// A widget that displays the list of products that match the search query.
 class ProductsGrid extends ConsumerWidget {
-  const ProductsGrid({super.key});
+  const ProductsGrid({required this.onPressed, super.key});
+  final void Function(BuildContext, ProductID)? onPressed;
 
   @override
   Widget build(BuildContext context, ref) {
@@ -34,10 +32,7 @@ class ProductsGrid extends ConsumerWidget {
                 final product = products[index];
                 return ProductCard(
                   product: product,
-                  onPressed: () => context.goNamed(
-                    AppRoutes.productDetails.name,
-                    pathParameters: {'id': product.id},
-                  ),
+                  onPressed: () => onPressed?.call(context, product.id),
                 );
               },
             ),
@@ -45,8 +40,6 @@ class ProductsGrid extends ConsumerWidget {
   }
 }
 
-/// Grid widget with content-sized items.
-/// See: https://codewithandrea.com/articles/flutter-layout-grid-content-sized-items/
 class ProductsLayoutGrid extends StatelessWidget {
   const ProductsLayoutGrid({
     super.key,
@@ -57,12 +50,10 @@ class ProductsLayoutGrid extends StatelessWidget {
   /// Total number of items to display.
   final int itemCount;
 
-  /// Function used to build a widget for a given index in the grid.
   final Widget Function(BuildContext, int) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
-    // use a LayoutBuilder to determine the crossAxisCount
     return LayoutBuilder(builder: (context, constraints) {
       final width = constraints.maxWidth;
       // 1 column for width < 500px
@@ -74,14 +65,12 @@ class ProductsLayoutGrid extends StatelessWidget {
       final numRows = (itemCount / crossAxisCount).ceil();
       // set all the row sizes to auto (self-sizing height)
       final rowSizes = List.generate(numRows, (_) => auto);
-      // Custom layout grid. See: https://pub.dev/packages/flutter_layout_grid
       return LayoutGrid(
         columnSizes: columnSizes,
         rowSizes: rowSizes,
         rowGap: Sizes.p24, // equivalent to mainAxisSpacing
         columnGap: Sizes.p24, // equivalent to crossAxisSpacing
         children: [
-          // render all the items with automatic child placement
           for (var i = 0; i < itemCount; i++) itemBuilder(context, i),
         ],
       );

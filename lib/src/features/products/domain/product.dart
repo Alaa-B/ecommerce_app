@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 
 /// * The product identifier is an important concept and can have its own type.
@@ -65,4 +67,35 @@ class Product extends Equatable {
 
   @override
   bool get stringify => true;
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'imageUrl': imageUrl,
+      'title': title,
+      'description': description,
+      'price': price,
+      'availableQuantity': availableQuantity,
+      'avgRating': avgRating,
+      'numRatings': numRatings,
+    };
+  }
+
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product(
+      id: map['id'] as String,
+      imageUrl: map['imageUrl'] as String,
+      title: map['title'] as String,
+      description: map['description'] as String,
+      price: map['price'] as double,
+      availableQuantity: map['availableQuantity'] as int,
+      avgRating: map['avgRating'] as double,
+      numRatings: map['numRatings'] as int,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Product.fromJson(String source) =>
+      Product.fromMap(json.decode(source) as Map<String, dynamic>);
 }

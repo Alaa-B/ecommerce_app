@@ -39,14 +39,14 @@ class _ProductsSearchTextFieldState
                 ? IconButton(
                     onPressed: () {
                       _controller.clear();
-                      ref.read(productsListStateProvider.notifier).state = '';
+                      ref.read(productsListStateProvider.notifier).setQuery('');
                     },
                     icon: const Icon(Icons.clear),
                   )
                 : null,
           ),
           onChanged: (query) =>
-              ref.read(productsListStateProvider.notifier).state = query,
+              ref.read(productsListStateProvider.notifier).setQuery(query),
         );
       },
     );

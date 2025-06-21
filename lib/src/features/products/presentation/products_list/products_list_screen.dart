@@ -1,3 +1,6 @@
+import 'package:ecommerce_app/src/routing/app_router.dart';
+import 'package:go_router/go_router.dart';
+
 import '../home_app_bar/home_app_bar.dart';
 import 'products_grid.dart';
 import 'products_search_text_field.dart';
@@ -46,14 +49,19 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
       appBar: const HomeAppBar(),
       body: CustomScrollView(
         controller: _scrollController,
-        slivers: const [
+        slivers: [
           ResponsiveSliverCenter(
             padding: EdgeInsets.all(Sizes.p16),
             child: ProductsSearchTextField(),
           ),
           ResponsiveSliverCenter(
             padding: EdgeInsets.all(Sizes.p16),
-            child: ProductsGrid(),
+            child: ProductsGrid(
+              onPressed: (context, productId) => context.goNamed(
+                AppRoutes.productDetails.name,
+                pathParameters: {'id': productId},
+              ),
+            ),
           ),
         ],
       ),

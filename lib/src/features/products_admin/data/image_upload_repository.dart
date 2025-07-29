@@ -1,14 +1,13 @@
-// ignore_for_file: unused_element, unused_local_variable
-
 import 'dart:io';
 
 import 'package:appwrite/appwrite.dart';
-import 'package:ecommerce_app/app_write.dart';
+import 'package:ecommerce_app/env/env.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:envied/envied.dart';
 
 part 'image_upload_repository.g.dart';
 
@@ -62,8 +61,9 @@ class ImageUploadRepository {
 
   /// Build a view URL for the uploaded file
   String _buildPreviewUrl(String fileId) {
-    const endpoint = endpointKey; // change if self-hosted
-    const projectId = projectIdKey; // replace with your Appwrite project ID
+    final endpoint = Env.appwriteEndpoint; // change if self-hosted
+    final projectId =
+        Env.appwriteProjectId; // replace with your Appwrite project ID
     return '$endpoint/storage/buckets/$_bucketId/files/$fileId/view?project=$projectId';
   }
 }
@@ -71,7 +71,7 @@ class ImageUploadRepository {
 @riverpod
 ImageUploadRepository imageUploadRepository(Ref ref) {
   final storage = ref.read(appWriteStorageProvider);
-  const bucketId = bucketIdKey;
+  final bucketId = Env.appwriteBucketId;
   return ImageUploadRepository(storage, bucketId);
 }
 
@@ -79,8 +79,8 @@ ImageUploadRepository imageUploadRepository(Ref ref) {
 Client appWriteClient(Ref ref) {
   Client client = Client();
   client
-      .setEndpoint(endpointKey)
-      .setProject(projectIdKey)
+      .setEndpoint(Env.appwriteEndpoint)
+      .setProject(Env.appwriteProjectId)
       .setSelfSigned(status: true);
   return client;
 }

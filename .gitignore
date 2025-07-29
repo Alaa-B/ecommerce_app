@@ -122,6 +122,12 @@ firebase-exports
 .env.dev
 .env.stg
 .env.prod
+*.env
+.env
+.env.*
+.env.g.dart
+lib/env/env.g.dart
+lib/env/env.dart
 
 # Test coverage files
 coverage/
@@ -136,3 +142,4 @@ ios/Runner/GoogleService-Info.plist
 ios/firebase_app_id_file.json
 macos/Runner/GoogleService-Info.plist
 macos/firebase_app_id_file.json
+

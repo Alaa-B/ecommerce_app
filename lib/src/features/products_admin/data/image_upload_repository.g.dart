@@ -7,7 +7,7 @@ part of 'image_upload_repository.dart';
 // **************************************************************************
 
 String _$imageUploadRepositoryHash() =>
-    r'a9c72aa40d2f01eef7e34f49efca0816f67e42c5';
+    r'f8238eb9b297a4756d6382a75abd85e2b1791051';
 
 /// See also [imageUploadRepository].
 @ProviderFor(imageUploadRepository)
@@ -26,7 +26,7 @@ final imageUploadRepositoryProvider =
 // ignore: unused_element
 typedef ImageUploadRepositoryRef
     = AutoDisposeProviderRef<ImageUploadRepository>;
-String _$appWriteClientHash() => r'e7be218c194135c81f3d5be15c23ff6bf69c18bf';
+String _$appWriteClientHash() => r'ceb3d051c0f6a2e86b550c03cf0a6480e405c879';
 
 /// See also [appWriteClient].
 @ProviderFor(appWriteClient)

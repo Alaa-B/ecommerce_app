@@ -29,7 +29,6 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
       return AppBar(
         title: Text('FeastNow'.hardcoded),
         actions: [
-          ShoppingCartIcon(),
           const ShoppingCartIcon(),
           MoreMenuButton(user: user, isAdministrator: isAdminUser),
         ],

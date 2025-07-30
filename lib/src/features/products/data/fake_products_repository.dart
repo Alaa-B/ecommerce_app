@@ -52,19 +52,6 @@ class FakeProductsRepository implements ProductsRepository {
     _products.value = products;
   }
 
-  @override
-  Future<List<Product>> searchProductList(String query) async {
-    final products = await fetchProductsList();
-    final lowerCaseQuery = query.toLowerCase();
-    assert(
-      products.length <= 100,
-      'the length of the product is too long to search on client side',
-    );
-    return products.where((p) {
-      return p.title.toLowerCase().contains(lowerCaseQuery);
-    }).toList();
-  }
-
   static Product? _getProductById(List<Product> products, String id) {
     try {
       return products.firstWhere((product) => product.id == id);
@@ -88,6 +75,25 @@ class FakeProductsRepository implements ProductsRepository {
   @override
   Future<void> deleteProduct(ProductID productId) {
     // TODO: implement deleteProduct
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Product>> fetchSearchProductList(String query) async {
+    final products = await fetchProductsList();
+    final lowerCaseQuery = query.toLowerCase();
+    assert(
+      products.length <= 100,
+      'the length of the product is too long to search on client side',
+    );
+    return products.where((p) {
+      return p.title.toLowerCase().contains(lowerCaseQuery);
+    }).toList();
+  }
+
+  @override
+  Stream<List<Product>> watchSearchProductList(String query) {
+    // TODO: implement watchSearchProductList
     throw UnimplementedError();
   }
 }

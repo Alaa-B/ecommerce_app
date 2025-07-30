@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,25 +14,25 @@ class ProductsRepository {
   static String productPath(ProductID id) => 'products/$id';
 
   Future<List<Product>> fetchProductsList() async {
-    final ref = _productsRef();
+    final ref = _productsCollRef();
     final snapshot = await ref.get();
     return snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList();
   }
 
   Stream<List<Product>> watchProductsList() {
-    final ref = _productsRef();
+    final ref = _productsCollRef();
     return ref.snapshots().map((querySnapshot) =>
         querySnapshot.docs.map((product) => product.data()).toList());
   }
 
   Future<Product?> fetchProductById(String id) async {
-    final ref = _productRef(id);
+    final ref = _productDocRef(id);
     final snapShot = await ref.get();
     return snapShot.data();
   }
 
   Stream<Product?> watchProductById(String id) {
-    final ref = _productRef(id);
+    final ref = _productDocRef(id);
     return ref.snapshots().map((product) => product.data());
   }
 
@@ -46,7 +48,7 @@ class ProductsRepository {
   }
 
   Future<void> updateProduct(Product product) {
-    final ref = _productRef(product.id);
+    final ref = _productDocRef(product.id);
     return ref.set(product);
   }
 
@@ -54,7 +56,7 @@ class ProductsRepository {
     return _firestore.doc(productPath(productId)).delete();
   }
 
-  Future<List<Product>> searchProductList(String query) async {
+  Future<List<Product>> fetchSearchProductList(String query) async {
     final productsList = await fetchProductsList();
     return productsList
         .where((product) =>
@@ -62,13 +64,22 @@ class ProductsRepository {
         .toList();
   }
 
-  DocumentReference<Product> _productRef(ProductID id) =>
+  Stream<List<Product>> watchSearchProductList(String query) {
+    return watchProductsList().map(
+      (productList) => productList
+          .where((product) =>
+              product.title.toLowerCase().contains(query.toLowerCase()))
+          .toList(),
+    );
+  }
+
+  DocumentReference<Product> _productDocRef(ProductID id) =>
       _firestore.doc(productPath(id)).withConverter(
             fromFirestore: (doc, _) => Product.fromMap(doc.data()!),
             toFirestore: (Product product, options) => product.toMap(),
           );
 
-  Query<Product> _productsRef() => _firestore
+  Query<Product> _productsCollRef() => _firestore
       .collection(productsPath())
       .withConverter(
         fromFirestore: (doc, _) => Product.fromMap(doc.data()!),
@@ -107,12 +118,30 @@ Future<Product?> productFutureById(Ref ref, ProductID id) {
 }
 
 @riverpod
-Future<List<Product>> productsListSearch(Ref ref, String query) {
-  // final link = ref.keepAlive();
-  // // * keep previous search results in memory for 60 seconds
-  // final timer = Timer(const Duration(seconds: 60), () {
-  //   link.close();
-  // });
-  // ref.onDispose(() => timer.cancel());
-  return ref.watch(productsRepositoryProvider).searchProductList(query);
+Future<List<Product>> fetchProductsListSearch(Ref ref, String query) {
+  final link = ref.keepAlive();
+  // a timer to be used by the callbacks below
+  Timer? timer;
+  // When the provider is destroyed, cancel the http request and the timer
+  ref.onDispose(() {
+    timer?.cancel();
+  });
+  // When the last listener is removed, start a timer to dispose the cached data
+  ref.onCancel(() {
+    // start a 30 second timer
+    timer = Timer(const Duration(seconds: 30), () {
+      // dispose on timeout
+      link.close();
+    });
+  });
+  // If the provider is listened again after it was paused, cancel the timer
+  ref.onResume(() {
+    timer?.cancel();
+  });
+  return ref.watch(productsRepositoryProvider).fetchSearchProductList(query);
+}
+
+@riverpod
+Stream<List<Product>> watchProductsListSearch(Ref ref, String query) {
+  return ref.watch(productsRepositoryProvider).watchSearchProductList(query);
 }

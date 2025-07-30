@@ -345,30 +345,30 @@ class _ProductFutureByIdProviderElement
   String get id => (origin as ProductFutureByIdProvider).id;
 }
 
-String _$productsListSearchHash() =>
-    r'd04141457df8a3af6895006b99dfb16054b9416b';
+String _$fetchProductsListSearchHash() =>
+    r'79ff91bbb28f0eb298e3fdc1a33fa113d183d355';
 
-/// See also [productsListSearch].
-@ProviderFor(productsListSearch)
-const productsListSearchProvider = ProductsListSearchFamily();
+/// See also [fetchProductsListSearch].
+@ProviderFor(fetchProductsListSearch)
+const fetchProductsListSearchProvider = FetchProductsListSearchFamily();
 
-/// See also [productsListSearch].
-class ProductsListSearchFamily extends Family<AsyncValue<List<Product>>> {
-  /// See also [productsListSearch].
-  const ProductsListSearchFamily();
+/// See also [fetchProductsListSearch].
+class FetchProductsListSearchFamily extends Family<AsyncValue<List<Product>>> {
+  /// See also [fetchProductsListSearch].
+  const FetchProductsListSearchFamily();
 
-  /// See also [productsListSearch].
-  ProductsListSearchProvider call(
+  /// See also [fetchProductsListSearch].
+  FetchProductsListSearchProvider call(
     String query,
   ) {
-    return ProductsListSearchProvider(
+    return FetchProductsListSearchProvider(
       query,
     );
   }
 
   @override
-  ProductsListSearchProvider getProviderOverride(
-    covariant ProductsListSearchProvider provider,
+  FetchProductsListSearchProvider getProviderOverride(
+    covariant FetchProductsListSearchProvider provider,
   ) {
     return call(
       provider.query,
@@ -387,33 +387,33 @@ class ProductsListSearchFamily extends Family<AsyncValue<List<Product>>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'productsListSearchProvider';
+  String? get name => r'fetchProductsListSearchProvider';
 }
 
-/// See also [productsListSearch].
-class ProductsListSearchProvider
+/// See also [fetchProductsListSearch].
+class FetchProductsListSearchProvider
     extends AutoDisposeFutureProvider<List<Product>> {
-  /// See also [productsListSearch].
-  ProductsListSearchProvider(
+  /// See also [fetchProductsListSearch].
+  FetchProductsListSearchProvider(
     String query,
   ) : this._internal(
-          (ref) => productsListSearch(
-            ref as ProductsListSearchRef,
+          (ref) => fetchProductsListSearch(
+            ref as FetchProductsListSearchRef,
             query,
           ),
-          from: productsListSearchProvider,
-          name: r'productsListSearchProvider',
+          from: fetchProductsListSearchProvider,
+          name: r'fetchProductsListSearchProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$productsListSearchHash,
-          dependencies: ProductsListSearchFamily._dependencies,
+                  : _$fetchProductsListSearchHash,
+          dependencies: FetchProductsListSearchFamily._dependencies,
           allTransitiveDependencies:
-              ProductsListSearchFamily._allTransitiveDependencies,
+              FetchProductsListSearchFamily._allTransitiveDependencies,
           query: query,
         );
 
-  ProductsListSearchProvider._internal(
+  FetchProductsListSearchProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -427,12 +427,13 @@ class ProductsListSearchProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<Product>> Function(ProductsListSearchRef provider) create,
+    FutureOr<List<Product>> Function(FetchProductsListSearchRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: ProductsListSearchProvider._internal(
-        (ref) => create(ref as ProductsListSearchRef),
+      override: FetchProductsListSearchProvider._internal(
+        (ref) => create(ref as FetchProductsListSearchRef),
         from: from,
         name: null,
         dependencies: null,
@@ -445,12 +446,12 @@ class ProductsListSearchProvider
 
   @override
   AutoDisposeFutureProviderElement<List<Product>> createElement() {
-    return _ProductsListSearchProviderElement(this);
+    return _FetchProductsListSearchProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is ProductsListSearchProvider && other.query == query;
+    return other is FetchProductsListSearchProvider && other.query == query;
   }
 
   @override
@@ -464,18 +465,153 @@ class ProductsListSearchProvider
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin ProductsListSearchRef on AutoDisposeFutureProviderRef<List<Product>> {
+mixin FetchProductsListSearchRef
+    on AutoDisposeFutureProviderRef<List<Product>> {
   /// The parameter `query` of this provider.
   String get query;
 }
 
-class _ProductsListSearchProviderElement
+class _FetchProductsListSearchProviderElement
     extends AutoDisposeFutureProviderElement<List<Product>>
-    with ProductsListSearchRef {
-  _ProductsListSearchProviderElement(super.provider);
+    with FetchProductsListSearchRef {
+  _FetchProductsListSearchProviderElement(super.provider);
 
   @override
-  String get query => (origin as ProductsListSearchProvider).query;
+  String get query => (origin as FetchProductsListSearchProvider).query;
+}
+
+String _$watchProductsListSearchHash() =>
+    r'6fe03fd42c9577836837fc8f0494a571fae2472e';
+
+/// See also [watchProductsListSearch].
+@ProviderFor(watchProductsListSearch)
+const watchProductsListSearchProvider = WatchProductsListSearchFamily();
+
+/// See also [watchProductsListSearch].
+class WatchProductsListSearchFamily extends Family<AsyncValue<List<Product>>> {
+  /// See also [watchProductsListSearch].
+  const WatchProductsListSearchFamily();
+
+  /// See also [watchProductsListSearch].
+  WatchProductsListSearchProvider call(
+    String query,
+  ) {
+    return WatchProductsListSearchProvider(
+      query,
+    );
+  }
+
+  @override
+  WatchProductsListSearchProvider getProviderOverride(
+    covariant WatchProductsListSearchProvider provider,
+  ) {
+    return call(
+      provider.query,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'watchProductsListSearchProvider';
+}
+
+/// See also [watchProductsListSearch].
+class WatchProductsListSearchProvider
+    extends AutoDisposeStreamProvider<List<Product>> {
+  /// See also [watchProductsListSearch].
+  WatchProductsListSearchProvider(
+    String query,
+  ) : this._internal(
+          (ref) => watchProductsListSearch(
+            ref as WatchProductsListSearchRef,
+            query,
+          ),
+          from: watchProductsListSearchProvider,
+          name: r'watchProductsListSearchProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$watchProductsListSearchHash,
+          dependencies: WatchProductsListSearchFamily._dependencies,
+          allTransitiveDependencies:
+              WatchProductsListSearchFamily._allTransitiveDependencies,
+          query: query,
+        );
+
+  WatchProductsListSearchProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.query,
+  }) : super.internal();
+
+  final String query;
+
+  @override
+  Override overrideWith(
+    Stream<List<Product>> Function(WatchProductsListSearchRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: WatchProductsListSearchProvider._internal(
+        (ref) => create(ref as WatchProductsListSearchRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        query: query,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<List<Product>> createElement() {
+    return _WatchProductsListSearchProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is WatchProductsListSearchProvider && other.query == query;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, query.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin WatchProductsListSearchRef
+    on AutoDisposeStreamProviderRef<List<Product>> {
+  /// The parameter `query` of this provider.
+  String get query;
+}
+
+class _WatchProductsListSearchProviderElement
+    extends AutoDisposeStreamProviderElement<List<Product>>
+    with WatchProductsListSearchRef {
+  _WatchProductsListSearchProviderElement(super.provider);
+
+  @override
+  String get query => (origin as WatchProductsListSearchProvider).query;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

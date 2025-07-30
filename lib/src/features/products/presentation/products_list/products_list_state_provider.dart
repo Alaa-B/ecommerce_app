@@ -17,5 +17,5 @@ class ProductsListState extends _$ProductsListState {
 @riverpod
 Future<List<Product>> productSearchResult(Ref ref) {
   final searchQuery = ref.watch(productsListStateProvider);
-  return ref.watch(productsListSearchProvider(searchQuery).future);
+  return ref.watch(fetchProductsListSearchProvider(searchQuery).future);
 }

@@ -29,20 +29,6 @@ class Product extends Equatable {
   final double avgRating;
   final int numRatings;
 
-  @override
-  List<Object> get props {
-    return [
-      id,
-      imageUrl,
-      title,
-      description,
-      price,
-      availableQuantity,
-      avgRating,
-      numRatings,
-    ];
-  }
-
   Product copyWith({
     ProductID? id,
     String? imageUrl,
@@ -85,12 +71,12 @@ class Product extends Equatable {
     return Product(
       id: map['id'] as String,
       imageUrl: map['imageUrl'] as String,
-      title: map['title'] as String,
-      description: map['description'] as String,
-      price: map['price'] as double,
-      availableQuantity: map['availableQuantity'] as int,
-      avgRating: map['avgRating'] as double,
-      numRatings: map['numRatings'] as int,
+      title: map['title'] ?? '',
+      description: map['description'] ?? '',
+      price: map['price'] ?? 0.0,
+      availableQuantity: map['availableQuantity'] ?? 0,
+      avgRating: map['avgRating'] ?? 0.0,
+      numRatings: map['numRatings'] ?? 0,
     );
   }
 
@@ -98,4 +84,18 @@ class Product extends Equatable {
 
   factory Product.fromJson(String source) =>
       Product.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  List<Object> get props {
+    return [
+      id,
+      imageUrl,
+      title,
+      description,
+      price,
+      availableQuantity,
+      avgRating,
+      numRatings,
+    ];
+  }
 }

@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:envied/envied.dart';
 
 part 'image_upload_repository.g.dart';
 
@@ -69,13 +68,6 @@ class ImageUploadRepository {
 }
 
 @riverpod
-ImageUploadRepository imageUploadRepository(Ref ref) {
-  final storage = ref.read(appWriteStorageProvider);
-  final bucketId = Env.appwriteBucketId;
-  return ImageUploadRepository(storage, bucketId);
-}
-
-@riverpod
 Client appWriteClient(Ref ref) {
   Client client = Client();
   client
@@ -89,4 +81,11 @@ Client appWriteClient(Ref ref) {
 Storage appWriteStorage(Ref ref) {
   final client = ref.watch(appWriteClientProvider);
   return Storage(client);
+}
+
+@riverpod
+ImageUploadRepository imageUploadRepository(Ref ref) {
+  final storage = ref.read(appWriteStorageProvider);
+  final bucketId = Env.appwriteBucketId;
+  return ImageUploadRepository(storage, bucketId);
 }

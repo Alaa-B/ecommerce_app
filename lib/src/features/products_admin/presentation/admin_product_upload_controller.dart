@@ -1,6 +1,5 @@
-import 'package:ecommerce_app/src/features/products/data/products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
-import 'package:ecommerce_app/src/features/products_admin/data/image_upload_repository.dart';
+import 'package:ecommerce_app/src/features/products_admin/application/image_upload_service.dart';
 import 'package:ecommerce_app/src/routing/app_router.dart';
 import 'package:ecommerce_app/src/utils/notifier_mounted.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -17,12 +16,7 @@ class AdminProductUploadController extends _$AdminProductUploadController
   Future<void> uploadImage(Product product) async {
     try {
       state = const AsyncLoading();
-      final downloadUrl = await ref
-          .read(imageUploadRepositoryProvider)
-          .uploadProductImageFromAsset(product.imageUrl, product.id);
-      await ref
-          .read(productsRepositoryProvider)
-          .createProduct(product.id, downloadUrl);
+      await ref.read(imageUploadServiceProvider).uploadProduct(product);
       ref.read(appRouterProvider).goNamed(AppRoutes.adminEditProduct.name,
           pathParameters: {'id': product.id});
     } catch (e, st) {

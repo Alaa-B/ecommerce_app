@@ -30,11 +30,18 @@ class ImageUploadRepository {
 
     // Write byte data to a temporary file
     final tempFile = await _writeBytesToTempFile(byteData, filename);
-
+    try {
+      await _storage.deleteFile(
+        bucketId: _bucketId,
+        fileId: productId,
+      );
+    } catch (_) {
+      // Ignore if the file doesn't exist
+    }
     // Upload to Appwrite Storage
     final uploaded = await _storage.createFile(
       bucketId: _bucketId,
-      fileId: ID.unique(),
+      fileId: productId,
       file: InputFile.fromPath(path: tempFile.path, filename: filename),
       permissions: [
         Permission.read(Role.any()), // Optional: make public

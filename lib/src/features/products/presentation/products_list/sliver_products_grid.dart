@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
 import 'package:ecommerce_app/src/constants/breakpoints.dart';
-import 'package:ecommerce_app/src/features/products/data/products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/features/products/presentation/products_list/product_card.dart';
+import 'package:ecommerce_app/src/features/products/presentation/products_list/products_list_state_provider.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
@@ -18,9 +18,7 @@ class SliverProductsGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: restore search functionality
-    //final productsListValue = ref.watch(productsSearchResultsProvider);
-    final productsListValue = ref.watch(productsListStreamProvider);
+    final productsListValue = ref.watch(productSearchResultProvider);
     return AsyncValueSliverWidget<List<Product>>(
       value: productsListValue,
       data: (products) => SliverProductsAlignedGrid(

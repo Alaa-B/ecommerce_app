@@ -346,7 +346,7 @@ class _ProductFutureByIdProviderElement
 }
 
 String _$fetchProductsListSearchHash() =>
-    r'79ff91bbb28f0eb298e3fdc1a33fa113d183d355';
+    r'c1a7a3ed2f450e20dee7dedb7542293c760742b2';
 
 /// See also [fetchProductsListSearch].
 @ProviderFor(fetchProductsListSearch)
@@ -481,7 +481,7 @@ class _FetchProductsListSearchProviderElement
 }
 
 String _$watchProductsListSearchHash() =>
-    r'6fe03fd42c9577836837fc8f0494a571fae2472e';
+    r'45f08c3276eb3ff01b212386939dac580ec87669';
 
 /// See also [watchProductsListSearch].
 @ProviderFor(watchProductsListSearch)

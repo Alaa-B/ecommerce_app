@@ -138,10 +138,32 @@ Future<List<Product>> fetchProductsListSearch(Ref ref, String query) {
   ref.onResume(() {
     timer?.cancel();
   });
-  return ref.watch(productsRepositoryProvider).fetchSearchProductList(query);
+  return ref
+      .watch(productsRepositoryProvider)
+      .watchSearchProductList(query)
+      .first;
 }
 
 @riverpod
 Stream<List<Product>> watchProductsListSearch(Ref ref, String query) {
+  final link = ref.keepAlive();
+  // a timer to be used by the callbacks below
+  Timer? timer;
+  // When the provider is destroyed, cancel the http request and the timer
+  ref.onDispose(() {
+    timer?.cancel();
+  });
+  // When the last listener is removed, start a timer to dispose the cached data
+  ref.onCancel(() {
+    // start a 30 second timer
+    timer = Timer(const Duration(seconds: 30), () {
+      // dispose on timeout
+      link.close();
+    });
+  });
+  // If the provider is listened again after it was paused, cancel the timer
+  ref.onResume(() {
+    timer?.cancel();
+  });
   return ref.watch(productsRepositoryProvider).watchSearchProductList(query);
 }
